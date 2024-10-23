@@ -47,10 +47,13 @@
           [pageOnFront]="showPaginator"
           [showPaginator]="showPaginator"
           [pageSizeOptions]="[5,10,50,100]"
-          [pageIndex]="0"
-          [pageSize]="5"
+          [pageIndex]="query.page"
+          [pageSize]="query.per_page"
+          [length]="total"
           (sortChange)="changeSort($event)"
-          (selectionChange)="changeSelect($event)">
+          (selectionChange)="changeSelect($event)"
+          (page)="getNextPage($event)"
+          >
 </mtx-grid>
 <ng-template #expansionTpl let-row>
   {{row.name}}

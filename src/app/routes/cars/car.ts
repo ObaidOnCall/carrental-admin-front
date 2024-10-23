@@ -1,11 +1,18 @@
 export interface CarResponse {
     id:number ,
     year:Date
-    brand : BrandResponse ,
     model : ModelResponse ,
+    modelName : string ,
+    brandName:string,
+    fuelType:string ,
     color : string ,
     mileage : number ,
     price : number ,
+    matricule : string ,
+    numberOfDoors:number ,
+    topSpeed:number ,
+    fuelEfficiency:number
+    
 }
 
 export interface CarRequest {
@@ -15,6 +22,18 @@ export interface CarRequest {
     color : string ,
     mileage : number ,
     price : number ,
+}
+
+
+export interface PaginatedCarResponse {
+    content: CarResponse[]; // This is where the actual cars are
+    totalElements: number;
+    totalPages: number;
+    size: number;
+    number: number; // Current page number
+    first: boolean;
+    last: boolean;
+    empty: boolean;
 }
 
 export interface BrandResponse {

@@ -12,6 +12,9 @@ import { TablesDataService } from '../data.service';
 import { TablesKitchenSinkEditComponent } from './edit/edit.component';
 
 import { CarService } from '../car.service';
+import { PageEvent } from '@angular/material/paginator';
+import { PaginatedCarResponse } from '../car';
+
 
 @Component({
   selector: 'app-overview',
@@ -37,78 +40,71 @@ export class OverviewComponent {
 
   columns: MtxGridColumn[] = [
     {
-      header: this.translate.stream('position'),
-      field: 'position',
+      header: this.translate.stream('Matricule'),
+      field: 'matricule',
       sortable: true,
       minWidth: 100,
       width: '100px',
     },
     {
-      header: this.translate.stream('name'),
-      field: 'name',
+      header: this.translate.stream('Color'),
+      field: 'color',
       sortable: true,
       disabled: true,
       minWidth: 100,
       width: '100px',
     },
     {
-      header: this.translate.stream('weight'),
-      field: 'weight',
+      header: this.translate.stream('Brand'),
+      field: 'brandName',
+      sortable: true,
+      disabled: true,
       minWidth: 100,
+      width: '100px',
     },
     {
-      header: this.translate.stream('symbol'),
-      field: 'symbol',
+      header: this.translate.stream('Model'),
+      field: 'modelName',
+      sortable: true,
+      disabled: true,
       minWidth: 100,
+      width: '100px',
     },
     {
-      header: this.translate.stream('gender'),
-      field: 'gender',
+      header: this.translate.stream('Fuel Type'),
+      field: 'fuelType',
+      sortable: true,
+      disabled: true,
       minWidth: 100,
+      width: '150px',
     },
     {
-      header: this.translate.stream('mobile'),
-      field: 'mobile',
-      hide: true,
-      minWidth: 120,
-    },
-    {
-      header: this.translate.stream('tele'),
-      field: 'tele',
+      header: this.translate.stream('Mileage'),
+      field: 'mileage',
       minWidth: 120,
       width: '120px',
     },
     {
-      header: this.translate.stream('birthday'),
-      field: 'birthday',
+      header: this.translate.stream('Price'),
+      field: 'price',
       minWidth: 180,
     },
     {
-      header: this.translate.stream('city'),
-      field: 'city',
-      minWidth: 120,
-    },
-    {
-      header: this.translate.stream('address'),
-      field: 'address',
-      minWidth: 180,
-      width: '200px',
-    },
-    {
-      header: this.translate.stream('company'),
-      field: 'company',
-      minWidth: 120,
-    },
-    {
-      header: this.translate.stream('website'),
-      field: 'website',
+      header: this.translate.stream('Doors'),
+      field: 'numberOfDoors',
       minWidth: 180,
     },
     {
-      header: this.translate.stream('email'),
-      field: 'email',
+      header: this.translate.stream('Top Speed'),
+      field: 'topSpeed',
       minWidth: 180,
     },
+    {
+      header: this.translate.stream('Fuel Efficiency'),
+      field: 'fuelEfficiency',
+      minWidth: 180,
+    },
+    
     {
       header: this.translate.stream('operation'),
       field: 'operation',
@@ -138,8 +134,10 @@ export class OverviewComponent {
       ],
     },
   ];
+
   list: any[] = [];
   isLoading = true;
+  total: number = 0 ;
 
   multiSelectable = true;
   rowSelectable = true;
@@ -154,8 +152,16 @@ export class OverviewComponent {
   expandable = false;
   columnResizable = false;
 
+
+  query = {
+    q: 'user:nzbin',
+    page: 0,
+    per_page: 5,
+  };
+
   ngOnInit() {
-    this.list = this.dataSrv.getData();
+    this.getList(this.query.page ,this.query.per_page);
+    // this.list = this.dataSrv.getData();
     this.isLoading = false;
   }
 
@@ -193,5 +199,22 @@ export class OverviewComponent {
 
   updateList() {
     this.list = this.list.splice(-1).concat(this.list);
+  }
+
+
+  getList(page : number , size : number){
+    
+    this.carService.getListOfCars(page , size).subscribe(
+      (carsPaginate: PaginatedCarResponse) => {
+        this.list = carsPaginate.content;
+        this.query.page = carsPaginate.totalPages ;
+        this.query.per_page = carsPaginate.size ;
+        this.isLoading = false;
+      }
+    )
+  }
+
+  getNextPage(e: PageEvent) {
+    this.getList(e.pageIndex , e.pageSize ) ;
   }
 }
