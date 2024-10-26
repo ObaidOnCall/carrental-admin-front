@@ -11,6 +11,7 @@ import { CarType, FiltersType } from '../types';
 import { CarsServiceService } from '../cars-service.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-table-cars',
@@ -30,7 +31,10 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 export class TableCarsComponent {
   private readonly translate = inject(TranslateService);
   private readonly dialog = inject(MtxDialog);
-  constructor(private carsService: CarsServiceService) {}
+  constructor(
+    private carsService: CarsServiceService,
+    private router: Router
+  ) {}
 
   columns: MtxGridColumn[] = [
     {
@@ -102,16 +106,17 @@ export class TableCarsComponent {
     {
       header: this.translate.stream('operation'),
       field: 'operation',
-      minWidth: 140,
-      width: '140px',
+      minWidth: 160,
+      width: '160px',
       pinned: 'right',
       type: 'button',
       buttons: [
         {
           type: 'icon',
+          color: 'accent',
           icon: 'edit',
           tooltip: this.translate.stream('edit'),
-          click: record => this.onSelectionChange(),
+          click: car => this.router.navigate(['/cars/update', car.id]),
         },
         {
           type: 'icon',
@@ -124,6 +129,13 @@ export class TableCarsComponent {
             okText: this.translate.stream('ok'),
           },
           click: vehicle => this.handelDelete(vehicle.id),
+        },
+        {
+          type: 'icon',
+          color: 'primary',
+          icon: 'arrow_right_alt',
+          tooltip: this.translate.stream('details'),
+          click: car => this.router.navigate(['/cars/details', car.id]),
         },
       ],
     },

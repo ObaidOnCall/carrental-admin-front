@@ -28,4 +28,7 @@ export class CarsServiceService {
   CreateVehicle(credentials: CarType): Observable<CarType> {
     return this.http.post<CarType>(environment.backend1 + '/vehicules', [credentials]);
   }
+  UpdateCar(id: number, credentials: CarType): Observable<CarType> {
+    return this.http.put<CarType>(environment.backend1 + `/vehicules/${[id]}`, [credentials]);
+  }
 }

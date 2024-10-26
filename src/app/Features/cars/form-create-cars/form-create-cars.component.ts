@@ -16,6 +16,7 @@ import { Brand } from 'app/Features/brands/types/type';
 import { BrandsService } from 'app/Features/brands/services/brands.service';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { QuillModule } from 'ngx-quill';
+import { ActivatedRoute } from '@angular/router';
 
 interface OptionSelect {
   value: number;
@@ -46,12 +47,14 @@ export class FormCreateCarsComponent {
   selectedBrand: number = 0;
   selectedModel: number | null = null;
   description: string = '';
+  id: string | null = null;
   private readonly toast = inject(ToastrService);
 
   constructor(
     private fb: FormBuilder,
     private carsService: CarsServiceService,
-    private brandServices: BrandsService
+    private brandServices: BrandsService,
+    private route: ActivatedRoute
   ) {
     this.vehicleForm = this.fb.group({
       matricule: ['', Validators.required],
@@ -60,14 +63,26 @@ export class FormCreateCarsComponent {
       mileage: ['', [Validators.required, Validators.min(0)]],
       year: ['', Validators.required],
       price: ['', [Validators.required, Validators.min(0)]],
-      description: [''],
+      // description: [''],
     });
   }
 
   onSubmit() {
-    if (this.vehicleForm.valid) {
-      console.log('Description:', this.description);
-
+    if (this.id) {
+      this.carsService
+        .UpdateCar(Number(this.id), {
+          ...this.vehicleForm.value,
+        })
+        .subscribe(
+          response => {
+            this.toast.success(`update successfully`);
+          },
+          err => {
+            const { error } = err;
+            this.toast.error(error.error.message);
+          }
+        );
+    } else {
       this.carsService
         .CreateVehicle({
           ...this.vehicleForm.value,
@@ -82,8 +97,6 @@ export class FormCreateCarsComponent {
             this.toast.error(error.error.message);
           }
         );
-    } else {
-      console.log('Form not valid!');
     }
   }
 
@@ -105,7 +118,21 @@ export class FormCreateCarsComponent {
 
   ngOnInit() {
     this.fetchBrand();
-    console.log('====>', this.brands);
+    this.id = this.route.snapshot.paramMap.get('id');
+
+    if (this.id) {
+      this.carsService.getCarById(Number(this.id)).subscribe(data => {
+        this.vehicle = data;
+        this.vehicleForm.patchValue({
+          matricule: this.vehicle?.matricule,
+          model: 22,
+          color: this.vehicle?.color,
+          mileage: this.vehicle?.mileage,
+          year: new Date(this.vehicle?.year),
+          price: this.vehicle?.price,
+        });
+      });
+    }
   }
 
   get f() {
