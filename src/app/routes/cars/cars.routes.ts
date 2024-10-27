@@ -5,6 +5,7 @@ import { IndexCarsComponent } from './index-cars/index-cars.component';
 import { CreateCarsComponent } from './create-cars/create-cars.component';
 import { DetailsCarComponent } from './details-car/details-car.component';
 import { CreateassurancesComponent } from 'app/Features/cars/createassurances/createassurances.component';
+import { BrandsComponent } from '../brands/brands.component';
 
 export const routes: Routes = [
   { path: '', component: IndexCarsComponent },
@@ -14,4 +15,5 @@ export const routes: Routes = [
   { path: 'new-assurance', component: CreateassurancesComponent },
   { path: 'overview', component: OverviewComponent },
   { path: 'add-car', component: FormComponent },
+  { path: 'brands', component: BrandsComponent },
 ];
