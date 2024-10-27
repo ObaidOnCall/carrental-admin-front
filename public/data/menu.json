@@ -68,6 +68,32 @@
       }
     },
     {
+      "route": "cars",
+      "name": "cars",
+      "type": "sub",
+      "icon": "directions_car",
+      "children": [
+        {
+          "route": "",
+          "name": "overview",
+          "type": "link",
+          "icon": "table_chart"
+        },
+        {
+          "route": "create",
+          "name": "add-car",
+          "type": "link",
+          "icon": "add_circle"
+        },
+        {
+          "route": "brands",
+          "name": "brands",
+          "type": "link",
+          "icon": "add_to_photos"
+        }
+      ]
+    },
+    {
       "route": "material",
       "name": "material",
       "type": "sub",
