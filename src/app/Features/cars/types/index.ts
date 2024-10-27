@@ -39,4 +39,15 @@ interface CarModel {
   numberOfDoors: number;
   brand: Brand;
 }
-export type { CarType, FiltersType, CarModel };
+
+interface Assurance {
+  type: string;
+  date: Date;
+  expireDate: Date;
+  price?: number;
+  assuranceContact?: string;
+  observation?: string;
+  vehicle: string;
+}
+
+export type { CarType, FiltersType, CarModel, Assurance };

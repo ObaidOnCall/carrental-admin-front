@@ -4,6 +4,7 @@ import { Observable, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Brand } from '../types/type';
 import { environment } from '@env/environment';
+import { CarModel } from 'app/Features/cars/types';
 
 @Injectable({
   providedIn: 'root',
@@ -39,5 +40,13 @@ export class BrandsService {
 
   getBrandsUpdatedListener(): Observable<void> {
     return this.brandsUpdated.asObservable();
+  }
+
+  createModel(model: CarModel[]): Observable<CarModel[]> {
+    return this.http.post<CarModel[]>(`${environment.backend1}/brands/models`, model).pipe(
+      tap(() => {
+        this.brandsUpdated.next();
+      })
+    );
   }
 }

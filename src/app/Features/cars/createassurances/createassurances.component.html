@@ -1,0 +1,53 @@
+<page-header [title]="'New assurance'" [nav]="['home','cars','assurance']" />
+
+<div>
+    <form [formGroup]="assuranceForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="fill" class="col-6">
+          <mat-label>Type*</mat-label>
+          <input matInput formControlName="type" required>
+          <mat-error *ngIf="assuranceForm.get('type')?.hasError('required')">Type is required.</mat-error>
+        </mat-form-field>
+      
+        <mat-form-field appearance="fill" class="col-6">
+          <mat-label>Date*</mat-label>
+          <input matInput [matDatepicker]="picker1" formControlName="date" required>
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+          <mat-error *ngIf="assuranceForm.get('date')?.hasError('required')">Date is required.</mat-error>
+        </mat-form-field>
+      
+        <mat-form-field appearance="fill" class="col-6">
+          <mat-label>Expiration Date*</mat-label>
+          <input matInput [matDatepicker]="picker2" formControlName="expireDate" required>
+          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker #picker2></mat-datepicker>
+          <mat-error *ngIf="assuranceForm.get('expireDate')?.hasError('required')">Expiration Date is required.</mat-error>
+        </mat-form-field>
+      
+        <mat-form-field appearance="fill" class="col-6">
+          <mat-label>Price</mat-label>
+          <input matInput type="number" formControlName="price">
+        </mat-form-field>
+      
+        <mat-form-field appearance="fill" class="col-6">
+          <mat-label>Assurance Contact</mat-label>
+          <input matInput formControlName="assuranceContact">
+        </mat-form-field>
+    
+        <mat-form-field appearance="fill" class="col-6">
+            <mat-label>Vehicle*</mat-label>
+            <input matInput formControlName="vehicle" required>
+            <mat-error *ngIf="assuranceForm.get('vehicle')?.hasError('required')">Vehicle is required.</mat-error>
+          </mat-form-field>
+      
+        <mat-form-field appearance="fill" class="col-12">
+          <mat-label>Observation</mat-label>
+          <textarea matInput formControlName="observation"></textarea>
+        </mat-form-field>
+      
+       
+      
+        <button mat-raised-button type="submit" [disabled]="assuranceForm.invalid">Submit</button>
+      </form>
+      
+</div>

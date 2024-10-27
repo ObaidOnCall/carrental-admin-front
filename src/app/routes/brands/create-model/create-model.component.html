@@ -1,0 +1,51 @@
+
+<page-header [title]="'Create new model'" [nav]="['home','brands','new model']" />
+
+<div class="bg-white r-12 p-12"> 
+    <form [formGroup]="modelForm" (ngSubmit)="onSubmit()">
+
+        <mat-form-field appearance="fill" class="col-6">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name" type="text" />
+            <mat-error *ngIf="modelForm.get('name')?.invalid && (modelForm.get('name')?.touched || modelForm.get('name')?.dirty)">
+              <small *ngIf="modelForm.get('name')?.errors?.required">Name is required.</small>
+              <small *ngIf="modelForm.get('name')?.errors?.min">Name must be a positive number.</small>
+            </mat-error>
+          </mat-form-field>
+    
+        <mat-form-field appearance="fill" class="col-6">
+          <mat-label>Top Speed</mat-label>
+          <input matInput formControlName="topSpeed" type="number" />
+          <mat-error *ngIf="modelForm.get('topSpeed')?.invalid && (modelForm.get('topSpeed')?.touched || modelForm.get('topSpeed')?.dirty)">
+            <small *ngIf="modelForm.get('topSpeed')?.errors?.required">Top Speed is required.</small>
+            <small *ngIf="modelForm.get('topSpeed')?.errors?.min">Top Speed must be a positive number.</small>
+          </mat-error>
+        </mat-form-field>
+      
+        <mat-form-field appearance="fill" class="col-6">
+          <mat-label>Number of Doors</mat-label>
+          <input matInput formControlName="numberOfDoors" type="number" />
+          <mat-error *ngIf="modelForm.get('numberOfDoors')?.invalid && (modelForm.get('numberOfDoors')?.touched || modelForm.get('numberOfDoors')?.dirty)">
+            <small *ngIf="modelForm.get('numberOfDoors')?.errors?.required">Number of Doors is required.</small>
+            <small *ngIf="modelForm.get('numberOfDoors')?.errors?.min">Must be at least 1 door.</small>
+          </mat-error>
+        </mat-form-field>
+      
+       
+ 
+        <mat-form-field appearance="fill" class="col-6">
+            <mat-label>Brands</mat-label>
+            <mat-select formControlName="brand">
+              <mat-option *ngFor="let brand of brands" [value]="brand.value">
+                {{ brand.viewValue }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="modelForm.get('brand')?.invalid && (modelForm.get('brand')?.touched || modelForm.get('brand')?.dirty)">
+              <small *ngIf="modelForm.get('brand')?.errors?.required">Brand is required.</small>
+            </mat-error>
+          </mat-form-field>
+      
+        <button mat-raised-button color="primary" type="submit" [disabled]="modelForm.invalid">Submit</button>
+      </form>
+      
+</div>

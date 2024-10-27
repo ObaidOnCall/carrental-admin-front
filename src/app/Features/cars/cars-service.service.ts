@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '@env/environment';
-import { CarModel, CarType } from './types';
+import { Assurance, CarModel, CarType } from './types';
 
 @Injectable({
   providedIn: 'root',
@@ -30,5 +30,9 @@ export class CarsServiceService {
   }
   UpdateCar(id: number, credentials: CarType): Observable<CarType> {
     return this.http.put<CarType>(environment.backend1 + `/vehicules/${[id]}`, [credentials]);
+  }
+
+  CreateAssurance(credentials: Assurance): Observable<Assurance> {
+    return this.http.post<Assurance>(environment.backend1 + 'vehicules/assurances', [credentials]);
   }
 }
