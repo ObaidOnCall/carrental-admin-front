@@ -34,7 +34,7 @@ interface OptionSelect {
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    QuillModule,
+    QuillModule
   ],
   templateUrl: './form-create-cars.component.html',
   styleUrl: './form-create-cars.component.css',

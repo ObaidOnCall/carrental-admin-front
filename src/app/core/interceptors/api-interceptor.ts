@@ -21,7 +21,9 @@ export class ApiInterceptor implements HttpInterceptor {
      * info : HttpRequest objects are immutable. (readOnly) so clone it
     */
     const token : string = this.tokenService.getBearerToken()
-    console.warn(token) ;
+    
+    // console.warn(token) ;
+
     const modifyedReq = req.clone({
       setHeaders : {
         Authorization : token

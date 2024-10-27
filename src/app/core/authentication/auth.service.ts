@@ -138,10 +138,11 @@ export class AuthService {
          * @@ make defautl avatar
          */
         user.avatar = "https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671142.jpg?w=740&t=st=1727553585~exp=1727554185~hmac=58d796778e888a2fee6f0555cdbf6c19997fa6ed5c972df8de69049cc9426d04" ;
-        console.log(user.realm_access) ;
         // Emit the user information
         this.user$.next(user);
-        console.warn(user) ;
+        // console.log(user.realm_access) ;
+
+        // console.warn(user) ;
         return of(user);
     }
 
