@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { CarsServiceService } from '../cars-service.service';
 import { ToastrService } from 'ngx-toastr';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-createassurances',
@@ -22,6 +23,7 @@ import { ToastrService } from 'ngx-toastr';
     MatNativeDateModule,
     MatButtonModule,
     CommonModule,
+    MatCardModule,
   ],
   templateUrl: './createassurances.component.html',
   styleUrls: ['./createassurances.component.css'],

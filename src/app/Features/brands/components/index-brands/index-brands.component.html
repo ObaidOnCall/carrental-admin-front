@@ -1,4 +1,4 @@
-<div class="w-100 flex justify-between align-center bg-white p-x-8 r-4 ">
+<div class=" w-100 flex justify-between align-center  p-x-8 r-4 ">
     <h1 class="f-s-20">Brands</h1>
     <div>
     <p-button class="btn" (onClick)="sidebarVisible = true" >
@@ -8,16 +8,3 @@
 </div>
 
 
-<p-sidebar class="z-max" [(visible)]="sidebarVisible" position="right"  >
-        <ng-template pTemplate="header">
-            <div class="flex align-items-center gap-2">
-                <!-- <p-avatar 
-                    image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" 
-                    shape="circle" /> -->
-                <span class="font-bold">
-                    Create Brand
-                </span>
-            </div>
-        </ng-template>
-        <app-create-brand (brandCreated)="onBrandCreated()" />
-</p-sidebar>

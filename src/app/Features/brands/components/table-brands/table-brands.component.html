@@ -1,46 +1,25 @@
-<mat-table [dataSource]="brands" class="m-t-8">
-  <!-- Position Column -->
-  <ng-container matColumnDef="Id">
-    <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
-  </ng-container>
+<mat-toolbar class="card w-100 flex justify-between align-center p-x-8 r-4 ">
+  <h1 class="f-s-20">Brands</h1>
+  <div>
+  <p-button class="btn" (click)="openDialog(0)">
+      Create Brand
+  </p-button>
+  </div>
+</mat-toolbar>
 
-  <!-- Name Column -->
-  <ng-container matColumnDef="name">
-    <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
-  </ng-container>
 
-  <ng-container matColumnDef="website">
-    <mat-header-cell *matHeaderCellDef> website </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.website}} </mat-cell>
-  </ng-container>
+@if(brands.length > 0){
+<div class="m-t-12">
+  <mtx-grid
+  [columns]="columns"
+  [data]="brands"
+ 
+>
+</mtx-grid>
+</div>
 
-  <!-- Action Column -->
-  <ng-container matColumnDef="action">
-    <mat-header-cell *matHeaderCellDef> action </mat-header-cell>
-    <mat-cell *matCellDef="let element"> 
-      <div class="flex gap-12">
-        <span (click)="openSidebar(element.id)" class="icon icon-edit" >
-          <img src="/icons/edit.svg" alt="Edit">
-      </span>
-        <span class="icon icon-delete"><img src="/icons/delete.svg" alt="Delete"></span>
-      </div>
-    </mat-cell>
-  </ng-container>
-
-  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-</mat-table>
-
-@if (sidebarVisible) {
-  <p-sidebar  class="z-max" [(visible)]="sidebarVisible" position="right">
-    <ng-template pTemplate="header">
-      <div class="flex align-items-center gap-2">
-        <span class="font-bold">Create Brand</span>
-      </div>
-    </ng-template>
-    <app-create-brand [brandId]="selectedBrandId" />
-  </p-sidebar>
+}@else{
+  <div class="container-loader">
+    <div class="loader"></div>
+  </div>
 }
-

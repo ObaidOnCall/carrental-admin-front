@@ -34,7 +34,7 @@ interface OptionSelect {
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    QuillModule
+    QuillModule,
   ],
   templateUrl: './form-create-cars.component.html',
   styleUrl: './form-create-cars.component.css',
@@ -63,7 +63,7 @@ export class FormCreateCarsComponent {
       mileage: ['', [Validators.required, Validators.min(0)]],
       year: ['', Validators.required],
       price: ['', [Validators.required, Validators.min(0)]],
-      // description: [''],
+      description: [''],
     });
   }
 

@@ -11,6 +11,7 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { MenuService } from '@core';
 import { BreadcrumbComponent } from '../breadcrumb/breadcrumb.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 @Component({
   selector: 'page-header',
@@ -21,7 +22,7 @@ import { BreadcrumbComponent } from '../breadcrumb/breadcrumb.component';
   },
   encapsulation: ViewEncapsulation.None,
   standalone: true,
-  imports: [BreadcrumbComponent, TranslateModule],
+  imports: [BreadcrumbComponent, MatToolbarModule, TranslateModule],
 })
 export class PageHeaderComponent implements OnInit {
   private readonly router = inject(Router);

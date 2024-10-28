@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common';
@@ -6,6 +6,7 @@ import { BrandsService } from '../../services/brands.service';
 import { Brand } from '../../types/type';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { VehicleType } from 'app/Features/Vehicles/type';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'; // Import MAT_DIALOG_DATA
 
 @Component({
   selector: 'app-create-brand',
@@ -17,14 +18,15 @@ import { VehicleType } from 'app/Features/Vehicles/type';
 export class CreateBrandComponent implements OnInit {
   formCreateBrand!: FormGroup;
   submitted = false;
-  @Input() brandId: number | null = null; // Input for brand ID
   brand: Brand | null = null;
   @Output() brandCreated = new EventEmitter<void>();
   vehicle: VehicleType | null = null;
 
   constructor(
     private fb: FormBuilder,
-    private brandsService: BrandsService
+    private brandsService: BrandsService,
+    @Inject(MAT_DIALOG_DATA) public data: { brandId: number | null },
+    private dialogRef: MatDialogRef<CreateBrandComponent>
   ) {}
 
   ngOnInit(): void {
@@ -35,8 +37,9 @@ export class CreateBrandComponent implements OnInit {
       website: ['', Validators.required],
     });
 
-    if (this.brandId) {
-      this.brandsService.getBrandById(this.brandId).subscribe(data => {
+    if (this.data.brandId) {
+      // Use this.data.brandId instead of this.brandId
+      this.brandsService.getBrandById(this.data.brandId).subscribe(data => {
         this.brand = data;
         this.formCreateBrand.patchValue(this.brand);
       });
@@ -51,11 +54,11 @@ export class CreateBrandComponent implements OnInit {
       return;
     }
 
-    if (this.brandId) {
-      console.log('values', this.formCreateBrand.value);
-      this.brandsService.updateBrands([this.formCreateBrand.value], [this.brandId]).subscribe({
+    if (this.data.brandId) {
+      this.brandsService.updateBrands([this.formCreateBrand.value], [this.data.brandId]).subscribe({
         next: res => {
           this.brandCreated.emit();
+          this.dialogRef.close();
         },
         error: err => {
           console.error('Error Update brand', err);
@@ -65,6 +68,7 @@ export class CreateBrandComponent implements OnInit {
       this.brandsService.createBrands([this.formCreateBrand.value]).subscribe({
         next: response => {
           this.brandCreated.emit();
+          this.dialogRef.close();
         },
         error: err => {
           console.error('Error creating brand', err);

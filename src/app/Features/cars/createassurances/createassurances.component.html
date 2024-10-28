@@ -1,6 +1,6 @@
 <page-header [title]="'New assurance'" [nav]="['home','cars','assurance']" />
 
-<div>
+<mat-card class="p-12">
     <form [formGroup]="assuranceForm" (ngSubmit)="onSubmit()">
         <mat-form-field appearance="fill" class="col-6">
           <mat-label>Type*</mat-label>
@@ -50,4 +50,4 @@
         <button mat-raised-button type="submit" [disabled]="assuranceForm.invalid">Submit</button>
       </form>
       
-</div>
+</mat-card>

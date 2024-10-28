@@ -1,5 +1,5 @@
-<div>
-    <form [formGroup]="formCreateBrand" method="post" class="row m-t-8" (ngSubmit)="onSubmit($event)">
+<div class="p-12">
+    <form [formGroup]="formCreateBrand" method="post" (ngSubmit)="onSubmit($event)">
         <mat-form-field appearance="outline" class="col-12">
             <mat-label>Name</mat-label>
             <input name="name" formControlName="name" type="text" matInput placeholder="Name">

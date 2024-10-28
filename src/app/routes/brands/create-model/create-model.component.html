@@ -1,7 +1,7 @@
 
 <page-header [title]="'Create new model'" [nav]="['home','brands','new model']" />
 
-<div class="bg-white r-12 p-12"> 
+<mat-card  class=" r-12 p-12"> 
     <form [formGroup]="modelForm" (ngSubmit)="onSubmit()">
 
         <mat-form-field appearance="fill" class="col-6">
@@ -48,4 +48,4 @@
         <button mat-raised-button color="primary" type="submit" [disabled]="modelForm.invalid">Submit</button>
       </form>
       
-</div>
+</mat-card>
