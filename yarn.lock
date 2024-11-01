@@ -2115,10 +2115,10 @@
   dependencies:
     tslib "^2.4.0"
 
-"@ng-matero/extensions@^18.2.2":
-  version "18.2.2"
-  resolved "https://registry.npmjs.org/@ng-matero/extensions/-/extensions-18.2.2.tgz"
-  integrity sha512-d8q1sFtUvqSXiv9XVBd2a5ET06qaxIKeWjuL8V0SfFdMJLPCwevLmRzWnQGWSocYavD+xIR1oyioMAXkZfpKfw==
+"@ng-matero/extensions@^18.2.4":
+  version "18.2.4"
+  resolved "https://registry.yarnpkg.com/@ng-matero/extensions/-/extensions-18.2.4.tgz#bdbc3420696b8e3af6273625dc7d7f7e5eaff7a2"
+  integrity sha512-LqyUhccKN9daLpR+fVhPzz0FAVYbTKSDKJBFRc02D2y7IKLDZEAqCfjgZL/cMrnGbRfm59rok3W9jiwQ8QAeIQ==
   dependencies:
     "@ng-select/ng-select" "^13.7.0"
     ngx-color "^9.0.0"
