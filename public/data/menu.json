@@ -63,6 +63,29 @@
       "permissions": {
     
       }
+    },
+    {
+      "route": "clients",
+      "name": "Clients",
+      "type": "sub",
+      "icon": "people",
+      "children": [
+        {
+          "route": "",
+          "name": "Clients",
+          "type": "link",
+          "icon": "home"
+        },
+        {
+          "route": "create",
+          "name": "Create",
+          "type": "link",
+          "icon": "home"
+        }
+      ],
+      "permissions": {
+    
+      }
     }
   ]
 }

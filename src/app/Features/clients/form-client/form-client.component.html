@@ -1,0 +1,96 @@
+<form [formGroup]="clientForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="fill" class="col-6">
+      <mat-label>First Name *</mat-label>
+      <input matInput formControlName="firstname" />
+      <mat-error *ngIf="clientForm.get('firstname')?.hasError('required') && (clientForm.get('firstname')?.touched || submitted)">
+        First name is required.
+      </mat-error>
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill" class="col-6">
+      <mat-label>Last Name *</mat-label>
+      <input matInput formControlName="lastname" />
+      <mat-error *ngIf="clientForm.get('lastname')?.hasError('required') && (clientForm.get('lastname')?.touched || submitted)">
+        Last name is required.
+      </mat-error>
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill" class="col-6">
+      <mat-label>CIN or Passport *</mat-label>
+      <input matInput formControlName="cinOrPassport" />
+      <mat-error *ngIf="clientForm.get('cinOrPassport')?.hasError('required') && (clientForm.get('cinOrPassport')?.touched || submitted)">
+        CIN or Passport is required.
+      </mat-error>
+      <mat-error *ngIf="clientForm.get('cinOrPassport')?.hasError('minlength') && (clientForm.get('cinOrPassport')?.touched || submitted)">
+        CIN or Passport must be at least 8 characters.
+      </mat-error>
+      <mat-error *ngIf="clientForm.get('cinOrPassport')?.hasError('maxlength') && (clientForm.get('cinOrPassport')?.touched || submitted)">
+        CIN or Passport must be no more than 20 characters.
+      </mat-error>
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill" class="col-6">
+      <mat-label>Licence *</mat-label>
+      <input matInput formControlName="licence" />
+      <mat-error *ngIf="clientForm.get('licence')?.hasError('required') && (clientForm.get('licence')?.touched || submitted)">
+        Licence is required.
+      </mat-error>
+      <mat-error *ngIf="clientForm.get('licence')?.hasError('minlength') && (clientForm.get('licence')?.touched || submitted)">
+        Licence must be at least 4 characters.
+      </mat-error>
+      <mat-error *ngIf="clientForm.get('licence')?.hasError('maxlength') && (clientForm.get('licence')?.touched || submitted)">
+        Licence must be no more than 20 characters.
+      </mat-error>
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill" class="col-6">
+      <mat-label>Nationality</mat-label>
+      <input matInput formControlName="nationality" />
+      <mat-error *ngIf="clientForm.get('nationality')?.hasError('minlength') && (clientForm.get('nationality')?.touched || submitted)">
+        Nationality must be at least 4 characters.
+      </mat-error>
+      <mat-error *ngIf="clientForm.get('nationality')?.hasError('maxlength') && (clientForm.get('nationality')?.touched || submitted)">
+        Nationality must be no more than 40 characters.
+      </mat-error>
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill" class="col-6">
+      <mat-label>Address</mat-label>
+      <input matInput formControlName="address" />
+      <mat-error *ngIf="clientForm.get('address')?.hasError('minlength') && (clientForm.get('address')?.touched || submitted)">
+        Address must be at least 8 characters.
+      </mat-error>
+      <mat-error *ngIf="clientForm.get('address')?.hasError('maxlength') && (clientForm.get('address')?.touched || submitted)">
+        Address must be no more than 50 characters.
+      </mat-error>
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill" class="col-6">
+      <mat-label>Email *</mat-label>
+      <input matInput formControlName="email" />
+      <mat-error *ngIf="clientForm.get('email')?.hasError('required') && (clientForm.get('email')?.touched || submitted)">
+        Email is required.
+      </mat-error>
+      <mat-error *ngIf="clientForm.get('email')?.hasError('email') && (clientForm.get('email')?.touched || submitted)">
+        Invalid email format.
+      </mat-error>
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill" class="col-6">
+      <mat-label>CIN Valid Until</mat-label>
+      <input matInput type="date" formControlName="cinIsValideUntil" />
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill" class="col-6">
+      <mat-label>Licence Valid Until</mat-label>
+      <input matInput type="date" formControlName="licenceIsValideUntil" />
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill" class="col-6">
+      <mat-label>Client Type</mat-label>
+      <input matInput formControlName="clientType" />
+    </mat-form-field>
+  
+    <button mat-raised-button color="primary" type="submit" [disabled]="clientForm.invalid">Submit</button>
+  </form>
+  

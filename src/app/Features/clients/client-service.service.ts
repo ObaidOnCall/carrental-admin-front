@@ -13,4 +13,12 @@ export class ClientServiceService {
   getClients(page: number, size: number): Observable<Client[]> {
     return this.http.get<Client[]>(environment.backend1 + `/clients?page=${page}&pageSize=${size}`);
   }
+
+  CreateVehicle(credentials: Client): Observable<Client> {
+    return this.http.post<Client>(environment.backend1 + '/clients', [credentials]);
+  }
+
+  getClientById(id: number): Observable<Client> {
+    return this.http.get<Client>(environment.backend1 + `/clients/${id}`);
+  }
 }

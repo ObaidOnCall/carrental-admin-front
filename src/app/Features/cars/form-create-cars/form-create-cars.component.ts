@@ -57,13 +57,20 @@ export class FormCreateCarsComponent {
     private route: ActivatedRoute
   ) {
     this.vehicleForm = this.fb.group({
-      matricule: ['', Validators.required],
-      model: [null, Validators.required],
-      color: ['', Validators.required],
-      mileage: ['', [Validators.required, Validators.min(0)]],
-      year: ['', Validators.required],
-      price: ['', [Validators.required, Validators.min(0)]],
-      description: [''],
+      firstname: ['', Validators.required],
+      lastname: ['', Validators.required],
+      cinOrPassport: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]],
+      licence: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(20)]],
+      nationality: ['', [Validators.minLength(4), Validators.maxLength(40)]],
+      address: ['', [Validators.minLength(8), Validators.maxLength(50)]],
+      ville: [''],
+      codePostal: [''],
+      phone1: [''],
+      phone2: [''],
+      email: ['', [Validators.required, Validators.email]],
+      cinIsValideUntil: [''],
+      licenceIsValideUntil: [''],
+      clientType: [''],
     });
   }
 
