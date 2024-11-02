@@ -21,4 +21,8 @@ export class ClientServiceService {
   getClientById(id: number): Observable<Client> {
     return this.http.get<Client>(environment.backend1 + `/clients/${id}`);
   }
+
+  UpdateClient(id: number, credentials: Client): Observable<Client> {
+    return this.http.put<Client>(environment.backend1 + `/clients/${id}`, credentials);
+  }
 }

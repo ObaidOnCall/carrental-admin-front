@@ -8,6 +8,7 @@ import { DeleteDialogComponent } from 'app/Features/common/delete-dialog/delete-
 import { TableModule } from 'primeng/table';
 import { ClientServiceService } from '../client-service.service';
 import { Client } from '../types';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-table-client',
@@ -26,7 +27,10 @@ import { Client } from '../types';
   providers: [MtxGridModule],
 })
 export class TableClientComponent {
-  constructor(private clientService: ClientServiceService) {}
+  constructor(
+    private clientService: ClientServiceService,
+    private router: Router
+  ) {}
   clients: Client[] = [];
   columns: MtxGridColumn[] = [
     { header: 'ID', field: 'id' },
@@ -57,7 +61,7 @@ export class TableClientComponent {
           text: 'edit',
           icon: 'edit',
           tooltip: 'Edit',
-          // Define edit function
+          click: client => this.router.navigate(['/clients/update', client.id]),
         },
         {
           type: 'icon',

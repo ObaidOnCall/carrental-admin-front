@@ -6,7 +6,7 @@ import { ClientServiceService } from '../client-service.service';
 import { ToastrService } from 'ngx-toastr';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatButtonModule } from '@angular/material/button';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgIf } from '@angular/common';
 
 @Component({
@@ -24,7 +24,10 @@ export class FormClientComponent implements OnInit {
   private readonly toast = inject(ToastrService);
   private readonly clientsService = inject(ClientServiceService);
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router
+  ) {
     // Initialize form group here
     this.clientForm = this.createForm();
   }
@@ -71,18 +74,36 @@ export class FormClientComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true; // Set submitted flag to true
+
     if (this.clientForm.valid) {
-      this.clientsService.CreateVehicle(this.clientForm.value).subscribe(
-        response => {
-          this.toast.success('Create successfully');
-          this.clientForm.reset(); // Optionally reset the form
-          this.submitted = false; // Reset submitted state if needed
-        },
-        err => {
-          const { error } = err;
-          this.toast.error(error.error.message);
+      this.route.params.subscribe(params => {
+        const id = params['id'];
+        if (id) {
+          this.clientsService.UpdateClient(id, this.clientForm.value).subscribe(
+            response => {
+              this.toast.success('Create successfully');
+              this.clientForm.reset(); // Optionally reset the form
+              this.submitted = false; // Reset submitted state if needed
+            },
+            err => {
+              const { error } = err;
+              this.toast.error(error.error.message);
+            }
+          );
+        } else {
+          this.clientsService.CreateVehicle(this.clientForm.value).subscribe(
+            response => {
+              this.toast.success('Create successfully');
+              this.clientForm.reset(); // Optionally reset the form
+              this.submitted = false; // Reset submitted state if needed
+            },
+            err => {
+              const { error } = err;
+              this.toast.error(error.error.message);
+            }
+          );
         }
-      );
+      });
     }
   }
 }
