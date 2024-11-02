@@ -1,0 +1,14 @@
+<div class="m-t-8">
+    <mtx-grid  
+      [data]="clients"
+      [columns]="columns"
+      [trackBy]="trackById"
+      [pageOnFront]="false"
+      [length]="totalRecords"
+      [pageSize]="rows"
+      [pageIndex]="currentPage"
+      [pageSizeOptions]="[5, 10, 20]"
+      (page)="onPageChange($event)">
+    </mtx-grid>
+  </div>
+  
