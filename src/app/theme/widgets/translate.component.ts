@@ -32,10 +32,11 @@ export class TranslateComponent {
     'en-US': 'English',
     'zh-CN': '中文简体',
     'zh-TW': '中文繁体',
+    'ar-SA': 'العربية',
   };
 
   constructor() {
-    this.translate.addLangs(['en-US', 'zh-CN', 'zh-TW']);
+    this.translate.addLangs(['en-US', 'zh-CN', 'zh-TW','ar-SA']);
   }
 
   useLanguage(language: string) {
