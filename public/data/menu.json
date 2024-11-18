@@ -33,27 +33,15 @@
           "name": "new assurance",
           "type": "link",
           "icon": "table_chart"
-        }
-
-      ],
-      "permissions": {
-    
-      }
-    },
-    {
-      "route": "brands",
-      "name": "Brands",
-      "type": "sub",
-      "icon": "home",
-      "children": [
+        },
         {
-          "route": "",
+          "route": "/brands",
           "name": "Brands",
           "type": "link",
           "icon": "home"
         },
         {
-          "route": "createmodel",
+          "route": "/createmodel",
           "name": "crate model",
           "type": "link",
           "icon": "table_chart"
