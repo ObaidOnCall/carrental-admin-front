@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, Inject, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -13,6 +13,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { Router } from '@angular/router';
 import { ShareBottonComponent } from '@shared/components/share-botton/share-botton.component';
+import { TableToolbarComponent } from '@shared/components/table-toolbar/table-toolbar.component';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-table-cars',
@@ -25,7 +29,8 @@ import { ShareBottonComponent } from '@shared/components/share-botton/share-bott
     MatRadioModule,
     MtxGridModule,
     MatButtonToggleModule,
-    ShareBottonComponent
+    ShareBottonComponent ,
+    TableToolbarComponent
 ],
   templateUrl: './table-cars.component.html',
   styleUrl: './table-cars.component.scss',
@@ -35,7 +40,7 @@ export class TableCarsComponent {
   private readonly dialog = inject(MtxDialog);
   constructor(
     private carsService: CarsServiceService,
-    private router: Router
+    private router: Router 
   ) {}
 
   columns: MtxGridColumn[] = [
@@ -233,5 +238,71 @@ export class TableCarsComponent {
 
   ngOnInit() {
     this.fetchCars(this.filters);
+  }
+
+
+
+  handelDeletetion () : void {
+    console.warn("I'm deleting 💵");
+    
+  }
+
+
+
+  handelAdd = (): void => {
+    console.warn(this.dialog);
+
+    const dialogRef = this.dialog.originalOpen(FormComponent, {
+      width: '350px',
+      data: { name: 'nzbin', animal: 'panda' },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  };
+
+  handelSearch(query : string) :void {
+
+    console.warn(query);
+    
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+}
+
+@Component({
+  selector: 'form-overview',
+  templateUrl: './form.html',
+  styleUrl: './form.scss',
+  standalone: true,
+  imports: [MatFormFieldModule, MatInputModule, FormsModule, MatDialogModule, MatButtonModule],
+})
+export class FormComponent {
+  constructor(
+    public dialogRef: MatDialogRef<FormComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {}
+
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 }
