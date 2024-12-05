@@ -12,6 +12,7 @@ import { CarsServiceService } from '../cars-service.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { Router } from '@angular/router';
+import { ShareBottonComponent } from '@shared/components/share-botton/share-botton.component';
 
 @Component({
   selector: 'app-table-cars',
@@ -24,9 +25,10 @@ import { Router } from '@angular/router';
     MatRadioModule,
     MtxGridModule,
     MatButtonToggleModule,
-  ],
+    ShareBottonComponent
+],
   templateUrl: './table-cars.component.html',
-  styleUrl: './table-cars.component.css',
+  styleUrl: './table-cars.component.scss',
 })
 export class TableCarsComponent {
   private readonly translate = inject(TranslateService);

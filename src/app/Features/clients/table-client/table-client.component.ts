@@ -1,19 +1,30 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MtxGridColumn, MtxGridModule } from '@ng-matero/extensions/grid';
 import { DeleteDialogComponent } from 'app/Features/common/delete-dialog/delete-dialog.component';
-import { TableModule } from 'primeng/table';
-import { ClientServiceService } from '../client-service.service';
-import { Client } from '../types';
+import { Table, TableModule } from 'primeng/table';
+import { ClientServiceService } from '../client.service';
+import {ClientResponse, PaginatedClientResponse } from '../clientTypes';
 import { Router } from '@angular/router';
+import { TagModule } from 'primeng/tag';
+import { ButtonModule } from 'primeng/button';
+import { InputIconModule } from 'primeng/inputicon';
+import { IconFieldModule } from 'primeng/iconfield';
+import { CommonModule } from '@angular/common';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { InputTextModule } from 'primeng/inputtext';
+import { DropdownModule } from 'primeng/dropdown';
+import { SliderModule } from 'primeng/slider';
+import { ProgressBarModule } from 'primeng/progressbar';
 
 @Component({
   selector: 'app-table-client',
   standalone: true,
   imports: [
+    CommonModule ,
     TableModule,
     DeleteDialogComponent,
     MtxGridModule,
@@ -21,91 +32,93 @@ import { Router } from '@angular/router';
     MatButtonModule,
     MatTooltipModule,
     MatTableModule,
+    TagModule ,
+    ButtonModule , InputIconModule , IconFieldModule , MultiSelectModule , InputTextModule ,
+    DropdownModule , SliderModule , ProgressBarModule
   ],
   templateUrl: './table-client.component.html',
   styleUrl: './table-client.component.css',
   providers: [MtxGridModule],
 })
 export class TableClientComponent {
-  constructor(
-    private clientService: ClientServiceService,
-    private router: Router
-  ) {}
-  clients: Client[] = [];
-  columns: MtxGridColumn[] = [
-    { header: 'ID', field: 'id' },
-    { header: 'First Name', field: 'firstname' },
-    { header: 'Last Name', field: 'lastname' },
-    { header: 'CIN/Passport', field: 'cinOrPassport' },
-    { header: 'Licence', field: 'licence' },
-    { header: 'Nationality', field: 'nationality' },
-    { header: 'Address', field: 'address' },
-    { header: 'City', field: 'ville' },
-    { header: 'Postal Code', field: 'codePostal' },
-    { header: 'Phone 1', field: 'phone1' },
-    { header: 'Phone 2', field: 'phone2' },
-    { header: 'Email', field: 'email' },
-    { header: 'CIN Valid Until', field: 'cinIsValideUntil', type: 'date' },
-    { header: 'Licence Valid Until', field: 'licenceIsValideUntil', type: 'date' },
-    { header: 'Client Type', field: 'clientType' },
-    {
-      header: 'Operation',
-      field: 'operation',
-      width: '180px',
-      pinned: 'right',
-      right: '0px',
-      type: 'button',
-      buttons: [
-        {
-          type: 'icon',
-          text: 'edit',
-          icon: 'edit',
-          tooltip: 'Edit',
-          click: client => this.router.navigate(['/clients/update', client.id]),
-        },
-        {
-          type: 'icon',
-          text: 'delete',
-          icon: 'delete',
-          tooltip: 'Delete',
-          color: 'warn',
-          pop: 'Confirm delete?',
-          // Define delete function
-        },
-      ],
-    },
-  ];
+searchValue: any;
+clear(_t16: Table) {
+throw new Error('Method not implemented.');
+}
 
-  totalRecords = this.clients.length;
-  rows = 5; // Default page size
-  currentPage = 0;
+  // clients: Client[] = [];
 
-  trackById(index: number, item: any) {
-    return item.id;
+
+
+  private readonly clientService : ClientServiceService = inject(ClientServiceService) ;
+  customers!: ClientResponse[];
+  selectedCustomers!: ClientResponse[];
+  representatives!: { name: string; image: string }[];
+
+  statuses!: any[];
+
+  loading: boolean = true;
+
+  activityValues: number[] = [0, 100];
+
+  ngOnInit(): void {
+    this.clientService.getClients(0 , 20)
+                                        .subscribe(
+                                          (clientspage : PaginatedClientResponse)=>{
+                                            this.customers = clientspage.content ;
+                                            this.loading = false;
+                                            console.warn(this.customers);
+                                          }
+                                        ) ;
+    
+                                        
+    this.representatives = [
+      { name: 'Amy Elsner', image: 'amyelsner.png' },
+      { name: 'Anna Fali', image: 'annafali.png' },
+      { name: 'Asiya Javayant', image: 'asiyajavayant.png' },
+      { name: 'Bernardo Dominic', image: 'bernardodominic.png' },
+      { name: 'Elwin Sharvill', image: 'elwinsharvill.png' },
+      { name: 'Ioni Bowcher', image: 'ionibowcher.png' },
+      { name: 'Ivan Magalhaes', image: 'ivanmagalhaes.png' },
+      { name: 'Onyama Limba', image: 'onyamalimba.png' },
+      { name: 'Stephen Shaw', image: 'stephenshaw.png' },
+      { name: 'Xuxue Feng', image: 'xuxuefeng.png' }
+    ];
+
+    this.statuses = [
+      { label: 'Unqualified', value: 'unqualified' },
+      { label: 'Qualified', value: 'qualified' },
+      { label: 'New', value: 'new' },
+      { label: 'Negotiation', value: 'negotiation' },
+      { label: 'Renewal', value: 'renewal' },
+      { label: 'Proposal', value: 'proposal' }
+    ];
   }
 
-  onPageChange(event: any) {
-    this.currentPage = event.pageIndex;
-    this.rows = event.pageSize;
-    // Handle pagination data fetching if needed
-  }
 
-  ngOnInit() {
-    this.fetchBrands();
-  }
 
-  fetchBrands() {
-    this.clientService.getClients(this.currentPage, this.rows).subscribe((clients: Client[]) => {
-      this.clients = clients && clients;
-      // Update your data table with the fetched brands
-      // Example: this.dataSource = brands;
-    });
-  }
 
-  handleDelete(id: number) {
-    // Implement the deletion logic here
-    // this.brandsService.deleteBrand(id).subscribe(() => {
-    //   this.fetchBrands(); // Refresh the list after deletion
-    // });
+  getSeverity(status: string): string | null {
+    switch (status) {
+      case 'unqualified':
+        return 'danger';
+  
+      case 'qualified':
+        return 'success';
+  
+      case 'new':
+        return 'info';
+  
+      case 'negotiation':
+        return 'warning';
+  
+      case 'renewal':
+        return null;
+  
+      default:
+        return 'unknown'; // Or any default value you want
+    }
   }
+  
+  
 }

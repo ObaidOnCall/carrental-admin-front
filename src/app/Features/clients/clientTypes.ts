@@ -1,4 +1,4 @@
-interface Client {
+export interface ClientResponse {
   id: number;
   firstname: string;
   lastname: string;
@@ -16,4 +16,15 @@ interface Client {
   clientType: string;
 }
 
-export type { Client };
+
+
+export interface PaginatedClientResponse {
+  content: ClientResponse[];
+  totalElements: number;
+  totalPages: number;
+  size: number;
+  number: number;
+  first: boolean;
+  last: boolean;
+  empty: boolean;
+}

@@ -1,0 +1,228 @@
+.tool-bar {
+
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 30%;
+    width: 27%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.Btn{
+    position: relative;
+    width: 150px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+}
+
+
+
+
+
+
+
+/* From Uiverse.io by andrew-demchenk0 */ 
+.button {
+    border: 1px solid #cc0000;
+    background-color: #e50000;
+    overflow: hidden;
+}
+
+
+  
+.button, .button__icon, .button__text {
+    transition: all 0.3s;
+}
+  
+.button .button__text {
+    transform: translateX(35px);
+    color: #fff;
+    font-weight: 600;
+}
+  
+.button .button__icon {
+    position: absolute;
+    transform: translateX(109px);
+    height: 100%;
+    width: 39px;
+    background-color: #cc0000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+  
+.button .svg {
+    width: 20px;
+}
+  
+.button:hover {
+    background: #cc0000;
+}
+  
+.button:hover .button__text {
+    color: transparent;
+}
+  
+.button:hover .button__icon {
+    width: 148px;
+    transform: translateX(0);
+}
+  
+.button:active .button__icon {
+    background-color: #b20000;
+}
+
+
+.button:active {
+    border: 1px solid #b20000;
+}
+  
+
+
+
+
+
+/* add button */
+
+/* From Uiverse.io by andrew-demchenk0 */ 
+.add-button {
+    border: 1px solid #34974d;
+    background-color: #3aa856;
+}
+  
+.add-button, .button__icon, .button__text {
+    transition: all 0.3s;
+}
+  
+.add-button .button__text {
+    transform: translateX(35px);
+    color: #fff;
+    font-weight: 600;
+}
+  
+.add-button .button__icon {
+    position: absolute;
+    transform: translateX(104px);
+    height: 100%;
+    width: 39px;
+    background-color: #34974d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+  
+.add-button .svg {
+    width: 20px;
+    stroke: #fff;
+}
+  
+.add-button:hover {
+    background: #34974d;
+}
+  
+.add-button:hover .button__text {
+    color: transparent;
+}
+  
+.add-button:hover .button__icon {
+    width: 140px;
+    transform: translateX(0);
+}
+  
+.add-button:active .button__icon {
+    background-color: #2e8644;
+}
+  
+.add-button:active {
+    border: 1px solid #2e8644;
+}
+
+
+/* search inpu */
+
+
+/* From Uiverse.io by ZAKARIAE48CHELLE */ 
+.input-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    position: relative;
+}
+  
+.input {
+    border-style: none;
+    height: 50px;
+    width: 50px;
+    padding: 10px;
+    outline: none;
+    border-radius: 50%;
+    transition: 0.5s ease-in-out;
+    background-color: #1557c0;
+    box-shadow: 0px 0px 3px #1557c0;
+    padding-right: 40px;
+    color: #fff;
+}
+  
+  .input::placeholder,
+.input {
+    font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+      "Lucida Sans", Arial, sans-serif;
+    font-size: 17px;
+}
+  
+.input::placeholder {
+    color: #8f8f8f;
+}
+  
+.icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 0px;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    outline: none;
+    border-style: none;
+    border-radius: 50%;
+    pointer-events: painted;
+    background-color: transparent;
+    transition: 0.2s linear;
+}
+  
+  .icon:focus ~ .input,
+.input:focus {
+    box-shadow: none;
+    width: 250px;
+    border-radius: 0px;
+    background-color: transparent;
+    border-bottom: 3px solid #1557c0;
+    transition: all 500ms cubic-bezier(0, 0.11, 0.35, 2);
+}
+  

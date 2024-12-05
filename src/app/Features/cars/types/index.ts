@@ -16,6 +16,7 @@ interface CarType {
   color: string;
   mileage: number;
   price: number;
+  desicription:string,
 }
 
 interface FiltersType {
