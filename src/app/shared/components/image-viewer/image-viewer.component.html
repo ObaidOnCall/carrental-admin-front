@@ -1,0 +1,10 @@
+<i [ngClass]="customClass">
+    <input
+      *ngFor="let image of images; let i = index"
+      [checked]="i === 0"
+      type="radio"
+      name="image-selector"
+      [style.backgroundImage]="'url(' + image.source + ')'"
+      [title]="image.title"
+    />
+</i>
