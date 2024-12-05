@@ -1,21 +1,43 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CarsServiceService } from 'app/Features/cars/cars-service.service';
 import { CarType } from 'app/Features/cars/types';
 import { GalleriaModule } from 'primeng/galleria';
+import { MatCardModule } from '@angular/material/card';
+import { PageHeaderComponent } from "../../../shared/components/page-header/page-header.component";
+import { CarResponse } from '../car';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatButtonModule} from '@angular/material/button';
+import { ImageViewerComponent } from '@shared/components/image-viewer/image-viewer.component';
+import { ShareBottonComponent } from '@shared/components/share-botton/share-botton.component';
+import { DocsBottonComponent } from '@shared/components/docs-botton/docs-botton.component';
+import { FileManagerComponent } from '@shared/components/file-manager/file-manager.component';
 
 @Component({
   selector: 'app-details-car',
   standalone: true,
-  imports: [GalleriaModule, MatIconModule],
+  imports: [
+    GalleriaModule,
+    MatIconModule,
+    MatCardModule,
+    PageHeaderComponent ,
+    MatDividerModule ,
+    MatButtonModule ,
+    ImageViewerComponent ,
+    ShareBottonComponent ,
+    DocsBottonComponent ,
+    FileManagerComponent
+  ],
   templateUrl: './details-car.component.html',
   styleUrls: ['./details-car.component.css'],
+  encapsulation: ViewEncapsulation.None
+
 })
 export class DetailsCarComponent {
   images: any[] = [];
   id: string | null = null;
-  car: CarType | null = null;
+  car: CarResponse | null = null;
 
   constructor(
     private route: ActivatedRoute,

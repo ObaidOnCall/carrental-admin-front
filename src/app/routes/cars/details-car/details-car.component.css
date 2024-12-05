@@ -1,0 +1,128 @@
+/* /* .car-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 16px 0;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+}
+  
+.car-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 12px;
+}
+
+.car-header h3 {
+margin: 0;
+}
+*/
+
+
+.car-details p {
+    padding: 5px;
+    border-radius: 5px;
+    font-size: medium;
+}
+
+.car-details {
+    
+    padding-left: 20px;
+}
+
+.p-bg {
+    background: rgba(136, 145, 135, 0.221);
+}
+
+
+section {
+    display: table;
+}
+  
+  .example-label {
+    display: table-cell;
+    font-size: 14px;
+    margin-left: 8px;
+    min-width: 120px;
+  }
+  
+  .example-button-row {
+    display: table-cell;
+    max-width: 600px;
+  }
+  
+  .example-button-row .mat-mdc-button-base {
+    margin: 8px 8px 8px 0;
+  }
+  
+  .example-flex-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  
+.example-button-container {
+  display: flex;
+  justify-content: center;
+  width: 120px;
+}
+
+
+
+.ii {
+
+  margin-bottom: 1rem;
+  height: 350px !important;
+}
+
+
+
+/* .container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.container {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  font-size: 20px;
+  user-select: none;
+  background-color: #676767;
+  padding: 4px;
+  border-radius: 25px;
+  height: fit-content;
+}
+
+.checkmark {
+  position: relative;
+  top: 0;
+  left: 0;
+  height: 1.3em;
+  width: 1.3em;
+  border-radius: 1rem;
+  background-color: #004000;
+  transition: 0.1s;
+}
+
+.container input:checked ~ .checkmark {
+  background-color: #00de00;
+  box-shadow: 0 0 10px #00ff00;
+} */
+
+
+
+
+
+.title-share-botton-div {
+
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+}

@@ -1,39 +1,67 @@
-@if (car ) {
-    <div class="bg-white p-12 rounded-6 row">
-        <div class="card col-6">
-            <p-galleria
-              [value]="images"
-              [responsiveOptions]="responsiveOptions"
-              [containerStyle]="{ 'max-width': '540px' }"
-              [numVisible]="5"
-            >
-              <ng-template pTemplate="item" let-item>
-                <img [src]="item.source" [alt]="item.alt" style="width: 100%;height: 400px;" />
-              </ng-template>
-              <ng-template pTemplate="thumbnail" let-item>
-                <div class="grid grid-nogutter justify-content-center">
-                  <img [src]="item.source" [alt]="item.alt" style="width: 100px; height: 100px;" />
-                </div>
-              </ng-template>
-            </p-galleria>
-        </div>
-        <div class="col-6">
-            <div class="flex justify-content-between align-items-center ">
-                <h3>Car Details</h3>
-                <div class="flex gap-8">
-                    <mat-icon class="badge badge-info" (click)="this.router.navigate(['/cars/update', car.id])" aria-hidden="false" aria-label="Example home icon" fontIcon="edit"></mat-icon>
-                    <mat-icon class="badge badge-danger" (click)="handelDelete(car.id)"   fontIcon="delete"></mat-icon>
-                </div>
+<page-header [title]="'Show details'" [nav]="['home','cars','show']" class="bg-green-70"/>
+@if (car) {
+  
+  <div class="p-x-8 text-center">
+    <div class="row">
+      <div class="col-sm-7">
+        <app-image-viewer 
+        [images]="images"
+        [customClass]="'ii'"
+        ></app-image-viewer>
+        
+          
+          <!-- Cards with media area -->
+          <mat-card class="example-card" appearance="outlined">
+
+            <mat-card-content>
+              <app-file-manager></app-file-manager>
+            </mat-card-content>
+            
+          </mat-card>
+
+      </div>
+      <div class="col-sm-5">
+        <mat-card class="p-8" appearance="outlined">
+          <mat-card-header>
+            <div class="title-share-botton-div">
+              <app-share-botton></app-share-botton>
+
+              <!-- <label class="container">
+                <input type="checkbox" checked="checked">
+                <div class="checkmark"></div>
+              </label> -->
+
+              
             </div>
-            <p><strong>Matricule:</strong> {{ car.matricule }}</p>
-            <p><strong>Price:</strong> {{ car.price | currency }}</p>
-            <!-- <p><strong>Year:</strong> {{ car.year }}</p> -->
-            <p><strong>Color:</strong> {{ car.color }}</p>
-        </div>
-        <div>
-            <h4>Description:</h4>
-        </div>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="car-details pl-10">
+              <p class="flex justify-between p-bg"><strong class="font-mono italic	font-semibold text-emerald-600">Matricule</strong> {{ car.matricule }}</p>
+              <p class="flex justify-between p-bg"><strong>Fuel Type</strong> {{ car.fuelType }}</p>
+              <p class="flex justify-between"><strong>Fuel Efficiency</strong> {{ car.fuelEfficiency }} km/l</p>
+              <p class="flex justify-between p-bg"><strong>Engine Type</strong> {{ car.engine_type }}</p>
+              <p class="flex justify-between"><strong>Fuel Efficiency</strong> {{ car.fuel_efficiency }} km/l</p>
+              <p class="flex justify-between"><strong>Top Speed</strong> {{ car.topSpeed }} km/h</p>
+              <p class="flex justify-between"><strong>Number of Doors</strong> {{ car.number_of_doors }}</p>
+              <p class="flex justify-between p-bg"><strong>Seating Capacity</strong> {{ car.sating_capacity }}</p>
+              <p class="flex justify-between"><strong>Transmission</strong> {{ car.transmission }}</p>
+              <p class="flex justify-between"><strong>Height</strong> {{ car.height }} cm</p>
+              <p class="flex justify-between"><strong>Length</strong> {{ car.length }} cm</p>
+              <p class="flex justify-between p-bg"><strong>Weight</strong> {{ car.weight }} kg</p>
+              <p class="flex justify-between"><strong>Width</strong> {{ car.width }} cm</p>
+              <p class="flex justify-between"><strong class="font-mono italic	font-semibold text-emerald-600">Color</strong> {{ car.color }}</p>
+              <p class="flex justify-between"><strong class="font-mono italic	font-semibold text-emerald-600">Mileage</strong> {{ car.mileage }} km</p>
+              <p class="flex justify-between p-bg"><strong class="font-mono italic	font-semibold text-emerald-600">Price</strong> {{ car.price | currency }}</p>
+              
+            </div>
+              <p class="flex justify-between"><strong class="font-mono italic	font-semibold text-emerald-600">Description</strong> {{ car.description }}</p>                
+          </mat-card-content>
+        </mat-card>            
+        
+        
+      </div>
     </div>
+  </div>
 } @else {
     <div class="container-loader">
         <div class="loader"></div>

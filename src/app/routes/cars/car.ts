@@ -11,7 +11,19 @@ export interface CarResponse {
     matricule : string ,
     numberOfDoors:number ,
     topSpeed:number ,
-    fuelEfficiency:number
+    fuelEfficiency:number ,
+    desicription:string ,
+    engine_type:string ,
+    fuel_efficiency:string ,
+    fuel_type:string,
+    number_of_doors:number ,
+    sating_capacity : number ,
+    transmission : string ,
+    height: number ,
+    length: number ,
+    weight: number ,
+    width : number ,
+    description:string
     
 }
 
