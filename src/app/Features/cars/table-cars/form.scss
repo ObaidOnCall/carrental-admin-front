@@ -134,6 +134,14 @@
     }
 }
 
+
+
+.error-message {
+  font-size: 12px;
+  font-weight: bolder;
+  color: #da4b4b;
+}
+
 @include width_mixins.generate-min-width(50% , "mw-50-percent");
 
 

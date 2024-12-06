@@ -17,6 +17,9 @@ import { TableToolbarComponent } from '@shared/components/table-toolbar/table-to
 import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-table-cars',
@@ -289,18 +292,40 @@ export class TableCarsComponent {
   
 }
 
+
+
 @Component({
   selector: 'form-overview',
   templateUrl: './form.html',
   styleUrl: './form.scss',
   standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, FormsModule, MatDialogModule, MatButtonModule],
+  imports: [
+    MatFormFieldModule, 
+    MatInputModule, 
+    FormsModule, 
+    MatDialogModule, 
+    MatButtonModule ,
+    ReactiveFormsModule,
+    CommonModule
+  ],
 })
 export class FormComponent {
+  registerForm: FormGroup;
+
   constructor(
     public dialogRef: MatDialogRef<FormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
+  ) {
+
+    this.registerForm = new FormGroup({
+      matricule: new FormControl('', [Validators.required]),
+      color: new FormControl('', [Validators.required]),
+      date: new FormControl('2024-12-31', [Validators.required]),
+      price: new FormControl('', [Validators.required, Validators.min(0)]),
+      brand: new FormControl('', [Validators.required]),
+      model: new FormControl('', [Validators.required]),
+    });
+  }
 
   onNoClick(): void {
     this.dialogRef.close();

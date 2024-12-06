@@ -1,10 +1,14 @@
 <!-- <div mat-dialog-content> -->
-    <form class="form">
-        <p class="title">Register </p>
+    <form [formGroup]="registerForm" class="form">
+        <p class="title">Vehicle </p>
         <div class="flex">
             <label class="mw-50-percent">
-                <input required="" placeholder="" type="text" class="input">
+                <input formControlName="matricule" required="" placeholder="" type="text" class="input">
                 <span>Matricule</span>
+                
+                <div *ngIf="registerForm.get('matricule')?.invalid && registerForm.get('matricule')?.touched">
+                    <span class="error-message">Matricule is required</span>
+                </div>
             </label>
     
             <label class="mw-50-percent">
