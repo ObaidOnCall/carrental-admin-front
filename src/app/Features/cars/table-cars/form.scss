@@ -1,24 +1,25 @@
+@use '../../../../styles/width/mixins' as width_mixins ;
 /* From Uiverse.io by Yaya12085 */ 
 .form {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    max-width: 350px;
+    gap: 20px;
+    max-width: 700px;
     padding: 20px;
     border-radius: 20px;
     position: relative;
-  }
+}
   
-  .title {
-    font-size: 28px;
+.title {
+    font-size: 21px;
     color: #34974D;
-    font-weight: 600;
+    font-weight: bolder;
     letter-spacing: -1px;
     position: relative;
     display: flex;
     align-items: center;
     padding-left: 30px;
-  }
+}
   
   .title::before,.title::after {
     position: absolute;
@@ -63,6 +64,10 @@
     display: flex;
     width: 100%;
     gap: 6px;
+
+    select {
+      background: var(--select-background-color, none);
+    }
   }
   
   .form label {
@@ -114,7 +119,7 @@
   }
   
   .submit:hover {
-    background-color: rgb(56, 90, 194);
+    background-color: rgb(20, 79, 11);
   }
   
   @keyframes pulse {
@@ -127,4 +132,9 @@
       transform: scale(1.8);
       opacity: 0;
     }
-  }
+}
+
+@include width_mixins.generate-min-width(50% , "mw-50-percent");
+
+
+

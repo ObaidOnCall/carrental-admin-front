@@ -2,19 +2,19 @@
     <form class="form">
         <p class="title">Register </p>
         <div class="flex">
-            <label>
+            <label class="mw-50-percent">
                 <input required="" placeholder="" type="text" class="input">
                 <span>Matricule</span>
             </label>
     
-            <label>
+            <label class="mw-50-percent">
                 <input required="" placeholder="" type="text" class="input">
                 <span>Color</span>
             </label>
         </div>  
                 
         <label>
-            <input required="" placeholder="" type="date" class="input">
+            <input required="" placeholder="" type="date" value="2024-12-31" class="input">
             <span>Date</span>
         </label> 
             
@@ -22,17 +22,29 @@
             <input required="" placeholder="" type="number" class="input">
             <span>Price</span>
         </label>
+
         <div class="flex">
-            <label>
-                <input required="" placeholder="" type="select" class="input">
+            <label class="mw-50-percent">
+                <select required class="input">
+                    <!-- Add options for Brand here -->
+                    <option value="brand1">Brand 1</option>
+                    <option value="brand2">Brand 2</option>
+                    <option value="brand3">Brand 3</option>
+                </select>
                 <span>Brand</span>
             </label>
-    
-            <label>
-                <input required="" placeholder="" type="select" class="input">
+        
+            <label class="mw-50-percent">
+                <select required class="input">
+                    <!-- Add options for Model here -->
+                    <option value="model1">Model 1</option>
+                    <option value="model2">Model 2</option>
+                    <option value="model3">Model 3</option>
+                </select>
                 <span>Model</span>
             </label>
-        </div> 
+        </div>
+         
         <button class="submit">Submit</button>
     </form>
 <!-- </div> 

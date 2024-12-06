@@ -253,7 +253,7 @@ export class TableCarsComponent {
     console.warn(this.dialog);
 
     const dialogRef = this.dialog.originalOpen(FormComponent, {
-      width: '350px',
+      width: '700px',
       data: { name: 'nzbin', animal: 'panda' },
     });
 

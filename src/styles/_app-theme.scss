@@ -41,4 +41,8 @@ html {
     if(mat.get-theme-type($theme) == dark, 40, 60))};
   --toast-error-background-color: #{map.get(mat.$red-palette,
     if(mat.get-theme-type($theme) == dark, 30, 50))};
+
+
+  // Customizing select background
+  --select-background-color: #{$bg-color};
 }
