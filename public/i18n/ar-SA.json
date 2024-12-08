@@ -2,7 +2,7 @@
     "menu": {
       "dashboard": "لوحة القيادة",
       "design": "التصميم",
-      "cars": "السيارات",
+      "cars": "مستودع المركبات",
       "cars.overview": "المركبات",
       "cars.cars": "المركبات",
       "cars.add-car": "إضافة مركبة",
@@ -145,6 +145,23 @@
     "have_an_account": "لديك حساب بالفعل؟",
     "restore_defaults": "استعادة الإعدادات الافتراضية" ,
     "Create new car":"إضافة مركبة",
-    "Cars": "السيارات"
+    "Cars": "السيارات" ,
+    "Vehicle ": "إضافة مركبة" ,
+    "VEHICLE_CREATED": "تم إضافة المركبة برقم التسجيل: {{matricules}}",
+    "Matricule":"رقم التسجيل" ,
+    "Brand": "العلامة التجارية",
+    "Model": "الطراز",
+    "Fuel Type": "نوع الوقود",
+    "Mileage": "الأميال",
+    "Price": "السعر",
+    "Doors": "الأبواب",
+    "Top Speed": "السرعة القصوى",
+    "Fuel Efficiency": "كفاءة الوقود",
+    "Color":"اللون" ,
+    "Edit": "تعديل",
+    "Delete": "حذف",
+    "Add Item": "إضافة",
+    "Details": "التفاصيل" ,
+    "Submit": "تسجيل"
 }
   

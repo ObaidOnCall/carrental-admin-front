@@ -2,11 +2,11 @@
   "menu": {
     "dashboard": "Dashboard",
     "design": "Design",
-    "cars": "Cars",
-    "cars.overview": "Vehicules",
-    "cars.cars": "Vehicules",
-    "cars.add-car": "Add Vehicules",
-    "cars.create car": "Add Vehicules",
+    "cars": "Vehicles Hub",
+    "cars.overview": "Vehicules Hub",
+    "cars.cars": "Vehicles",
+    "cars.add-car": "Add Vehicles",
+    "cars.create car": "Add Vehicles",
     "cars.new assurance": "Add A Guarantee",
     "Brands": "Brands",
     "cars.Brands": "List Of Brands",
@@ -143,5 +143,8 @@
   "register_title": "It only takes a few seconds to create your account",
   "read_and_agree": "I have read and agree to the terms of service",
   "have_an_account": "Already have an account",
-  "restore_defaults": "Restore defaults"
+  "restore_defaults": "Restore defaults",
+  "VEHICLE_CREATED": "Vehicle with registration number: {{matricules}} created"
+
+  
 }
