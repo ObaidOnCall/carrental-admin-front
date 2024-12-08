@@ -99,69 +99,39 @@
 .button:active {
     border: 1px solid #b20000;
 }
-  
 
 
 
 
-
-/* add button */
-
-/* From Uiverse.io by andrew-demchenk0 */ 
-.add-button {
-    border: 1px solid #34974d;
-    background-color: #3aa856;
-}
-  
-.add-button, .button__icon, .button__text {
-    transition: all 0.3s;
-}
-  
-.add-button .button__text {
-    transform: translateX(35px);
-    color: #fff;
-    font-weight: 600;
-}
-  
-.add-button .button__icon {
-    position: absolute;
-    transform: translateX(104px);
-    height: 100%;
-    width: 39px;
-    background-color: #34974d;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-  
-.add-button .svg {
-    width: 20px;
-    stroke: #fff;
-}
-  
-.add-button:hover {
-    background: #34974d;
-}
-  
-.add-button:hover .button__text {
-    color: transparent;
-}
-  
-.add-button:hover .button__icon {
-    width: 140px;
-    transform: translateX(0);
-}
-  
-.add-button:active .button__icon {
-    background-color: #2e8644;
-}
-  
-.add-button:active {
-    border: 1px solid #2e8644;
+.button-add {
+    border: 1px solid #0b6512 !important;
+    background-color: #068f31 !important;
 }
 
 
-/* search inpu */
+.button-add .button__icon {
+   
+    background-color: #0b6512 !important;
+    color: white;
+}
+
+.button-add:hover {
+    background: #075d08 !important;
+}
+
+.button-add:active .button__icon {
+    background-color: #075d08 !important;
+}
+
+
+.button-add:active {
+    border: 1px solid #075d08 !important;
+}
+
+
+
+
+/* search input */
 
 
 /* From Uiverse.io by ZAKARIAE48CHELLE */ 
