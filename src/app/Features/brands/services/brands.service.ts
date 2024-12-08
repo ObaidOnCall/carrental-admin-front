@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -10,9 +10,11 @@ import { CarModel } from 'app/Features/cars/types';
   providedIn: 'root',
 })
 export class BrandsService {
-  private brandsUpdated = new Subject<void>();
+  private readonly brandsUpdated = new Subject<void>();
 
-  constructor(private http: HttpClient) {}
+  private readonly http : HttpClient = inject(HttpClient) ;
+
+  constructor() {}
 
   getBrands(): Observable<Brand[]> {
     return this.http.get<Brand[]>(`${environment.backend1}/brands`);
@@ -40,6 +42,10 @@ export class BrandsService {
 
   getBrandsUpdatedListener(): Observable<void> {
     return this.brandsUpdated.asObservable();
+  }
+
+  getModels (brandId : number) : Observable<CarModel[]> {
+    return this.http.get<CarModel[]>(`${environment.backend1}/brands/${brandId}/models`)
   }
 
   createModel(model: CarModel[]): Observable<CarModel[]> {
