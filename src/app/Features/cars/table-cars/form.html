@@ -1,10 +1,10 @@
 <!-- <div mat-dialog-content> -->
-    <form [formGroup]="registerForm" class="form">
-        <p class="title">Vehicle </p>
+    <form [formGroup]="registerForm" class="form" (ngSubmit)="onSubmit()">
+        <p class="title">{{ 'Vehicle ' | translate }}</p>
         <div class="flex">
             <label class="mw-50-percent">
                 <input formControlName="matricule" required="" placeholder="" type="text" class="input">
-                <span>Matricule</span>
+                <span>{{ 'Matricule' | translate }}</span>
                 
                 <div *ngIf="registerForm.get('matricule')?.invalid && registerForm.get('matricule')?.touched">
                     <span class="error-message">Matricule is required</span>
@@ -13,43 +13,53 @@
     
             <label class="mw-50-percent">
                 <input required="" placeholder="" type="text" class="input">
-                <span>Color</span>
+                <span>{{ 'Color' | translate }}</span>
             </label>
         </div>  
                 
         <label>
-            <input required="" placeholder="" type="date" value="2024-12-31" class="input">
-            <span>Date</span>
+            <input formControlName="date" required="" placeholder="" type="date" value="2024-12-31" class="input">
+            <span>{{ 'Date' | translate }}</span>
+
+            <div *ngIf="registerForm.get('date')?.invalid && registerForm.get('date')?.touched">
+                <span class="error-message">date is required</span>
+            </div>
         </label> 
             
         <label>
-            <input required="" placeholder="" type="number" class="input">
-            <span>Price</span>
+            <input formControlName="price" required="" placeholder="" type="number" class="input">
+            <span>{{ 'Price' | translate }}</span>
+
+            <div *ngIf="registerForm.get('price')?.invalid && registerForm.get('price')?.touched">
+                <span class="error-message">Price is required</span>
+            </div>
         </label>
 
         <div class="flex">
             <label class="mw-50-percent">
-                <select required class="input">
-                    <!-- Add options for Brand here -->
-                    <option value="brand1">Brand 1</option>
-                    <option value="brand2">Brand 2</option>
-                    <option value="brand3">Brand 3</option>
+                <select formControlName="brand" required class="input" (change)="onBrandChange($event)">
+                    <option *ngFor="let brand of brands" [value]="brand.id">{{ brand.name }}</option>
                 </select>
-                <span>Brand</span>
+                <span>{{ 'Brand' | translate }}</span>
+
+                <div *ngIf="registerForm.get('brand')?.invalid && registerForm.get('brand')?.touched">
+                    <span class="error-message">Brand is required</span>
+                </div>
             </label>
         
             <label class="mw-50-percent">
-                <select required class="input">
-                    <!-- Add options for Model here -->
-                    <option value="model1">Model 1</option>
-                    <option value="model2">Model 2</option>
-                    <option value="model3">Model 3</option>
+                <select formControlName="model" required class="input">
+                    <option *ngFor="let model of models" [value]="model.id">{{ model.name }}</option>
                 </select>
-                <span>Model</span>
+                <span>{{ 'Model' | translate }}</span>
+
+                <div *ngIf="registerForm.get('model')?.invalid && registerForm.get('model')?.touched">
+                    <span class="error-message">Model is required</span>
+                </div>
             </label>
         </div>
          
-        <button class="submit">Submit</button>
+        <button class="submit" type="submit">{{ 'Submit' | translate }}</button>
     </form>
 <!-- </div> 
 

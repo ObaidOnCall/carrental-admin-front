@@ -1,14 +1,16 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '@env/environment';
-import { Assurance, CarModel, CarType } from './types';
+import { Assurance, CarModel, CarRequest, CarResponse, CarType } from './types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CarsServiceService {
-  constructor(private http: HttpClient) {}
+
+  private readonly http: HttpClient = inject(HttpClient) ;
+  constructor() {}
 
   getCars(page: number, size: number): Observable<any> {
     return this.http.get<any>(environment.backend1 + `/vehicules?page=${page}&size=${size}`);
@@ -25,8 +27,9 @@ export class CarsServiceService {
   deleteCars(id: number): Observable<any> {
     return this.http.delete<any>(environment.backend1 + `/vehicules/${id}`);
   }
-  CreateVehicle(credentials: CarType): Observable<CarType> {
-    return this.http.post<CarType>(environment.backend1 + '/vehicules', [credentials]);
+
+  createVehicule(cars: CarRequest[]): Observable<CarResponse[]> {
+    return this.http.post<CarResponse[]>(environment.backend1 + '/vehicules', cars);
   }
   UpdateCar(id: number, credentials: CarType): Observable<CarType> {
     return this.http.put<CarType>(environment.backend1 + `/vehicules/${[id]}`, [credentials]);

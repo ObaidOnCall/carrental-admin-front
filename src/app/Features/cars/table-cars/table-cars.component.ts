@@ -1,13 +1,13 @@
 import { Component, Inject, OnInit, inject } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule , ReactiveFormsModule, FormGroup, FormControl, Validators} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
 import { MtxDialog } from '@ng-matero/extensions/dialog';
 import { MtxGridColumn, MtxGridModule } from '@ng-matero/extensions/grid';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService , TranslateModule} from '@ngx-translate/core';
 import { PageEvent } from '@angular/material/paginator';
-import { CarType, FiltersType } from '../types';
+import { CarModel, CarRequest, CarType, FiltersType } from '../types';
 import { CarsServiceService } from '../cars-service.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -17,8 +17,11 @@ import { TableToolbarComponent } from '@shared/components/table-toolbar/table-to
 import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { BrandsService } from 'app/Features/brands/services/brands.service';
+import { Brand } from 'app/Features/brands/types/type';
+import { ToastrService } from 'ngx-toastr';
+
 
 
 @Component({
@@ -245,18 +248,18 @@ export class TableCarsComponent {
 
 
 
-  handelDeletetion () : void {
+  handelToolboxDeletetion () : void {
     console.warn("I'm deleting 💵");
     
   }
 
 
 
-  handelAdd = (): void => {
-    console.warn(this.dialog);
+  handelToolboxAdd = (): void => {
+    // console.warn(this.dialog);
 
     const dialogRef = this.dialog.originalOpen(FormComponent, {
-      width: '700px',
+      width: '900px',
       data: { name: 'nzbin', animal: 'panda' },
     });
 
@@ -265,7 +268,7 @@ export class TableCarsComponent {
     });
   };
 
-  handelSearch(query : string) :void {
+  handelToolboxSearch(query : string) :void {
 
     console.warn(query);
     
@@ -306,11 +309,21 @@ export class TableCarsComponent {
     MatDialogModule, 
     MatButtonModule ,
     ReactiveFormsModule,
-    CommonModule
+    CommonModule ,
+    TranslateModule
   ],
 })
 export class FormComponent {
   registerForm: FormGroup;
+
+  private readonly brandService : BrandsService = inject(BrandsService) ;
+  private readonly carService : CarsServiceService = inject(CarsServiceService) ;
+  private readonly toast = inject(ToastrService);
+  private readonly translate = inject(TranslateService);
+
+
+  brands : Brand[] = [] ;
+  models : CarModel [] = [] ;
 
   constructor(
     public dialogRef: MatDialogRef<FormComponent>,
@@ -319,15 +332,110 @@ export class FormComponent {
 
     this.registerForm = new FormGroup({
       matricule: new FormControl('', [Validators.required]),
-      color: new FormControl('', [Validators.required]),
+      // color: new FormControl('', [Validators.required]),
       date: new FormControl('2024-12-31', [Validators.required]),
-      price: new FormControl('', [Validators.required, Validators.min(0)]),
+      price: new FormControl('', [
+        Validators.required, 
+        Validators.min(5) ,
+        Validators.max(1000) ,
+      ]),
       brand: new FormControl('', [Validators.required]),
       model: new FormControl('', [Validators.required]),
     });
   }
 
+
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+    
+    this.getBrands() ;
+  }
+
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+
+
+  onBrandChange(event : Event):void {
+    const selectedBrandId = parseInt((event.target as HTMLSelectElement).value, 10);
+
+    if (!selectedBrandId) {
+      return;
+    }
+
+    this.getBrandModels(selectedBrandId) ;
+  }
+
+
+  onSubmit() {
+    
+    if (this.registerForm.valid) {
+      
+      const formValue = this.registerForm.value;
+
+      const carData: CarRequest = {
+        matricule: formValue.matricule,
+        year: new Date(formValue.date).getTime() / 1000,
+        model: parseInt(formValue.model),
+        color: formValue.color,
+        mileage: 228687,
+        price: formValue.price
+      };
+
+      this.carService.createVehicule([carData])
+                      .subscribe({
+                        next:(cars)=>{
+                          const matricules = cars.map(car => car.matricule).join(', ');
+                          this.translate.stream('VEHICLE_CREATED', { matricules }).subscribe((translatedMessage: string) => {
+                            this.toast.success(translatedMessage);
+                          });
+                        } ,
+                        error:()=>{
+
+                        } ,
+                        complete:()=>{
+                          this.dialogRef.close();
+                        }
+                      })
+      console.warn(carData);
+      console.warn("Form is Valid");
+
+    } else {
+      this.registerForm.markAllAsTouched() ;
+      console.warn("Form is not Valid");
+      
+    }
+    
+  }
+  
+  private getBrands() {
+      this.brandService.getBrands()
+      .subscribe(
+        (brands : Brand[])=>{
+          this.brands = brands ;
+        }
+      )
+  }
+
+  private getBrandModels(selectedBrandId : number) {
+
+    this.brandService.getModels(selectedBrandId)
+        .subscribe({
+
+          next : (models : CarModel[])=> {
+              this.models = models ;
+          } ,
+
+          error:()=> {
+
+          } ,
+
+
+          complete : ()=>{
+
+          }
+    })
   }
 }
