@@ -13,6 +13,7 @@ import { ImageViewerComponent } from '@shared/components/image-viewer/image-view
 import { ShareBottonComponent } from '@shared/components/share-botton/share-botton.component';
 import { DocsBottonComponent } from '@shared/components/docs-botton/docs-botton.component';
 import { FileManagerComponent } from '@shared/components/file-manager/file-manager.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-details-car',
@@ -27,7 +28,8 @@ import { FileManagerComponent } from '@shared/components/file-manager/file-manag
     ImageViewerComponent ,
     ShareBottonComponent ,
     DocsBottonComponent ,
-    FileManagerComponent
+    FileManagerComponent ,
+    TranslateModule
   ],
   templateUrl: './details-car.component.html',
   styleUrls: ['./details-car.component.css'],
