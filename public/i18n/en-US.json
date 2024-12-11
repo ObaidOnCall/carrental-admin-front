@@ -144,7 +144,8 @@
   "read_and_agree": "I have read and agree to the terms of service",
   "have_an_account": "Already have an account",
   "restore_defaults": "Restore defaults",
-  "VEHICLE_CREATED": "Vehicle with registration number: {{matricules}} created"
+  "VEHICLE_CREATED": "Vehicle with registration number: {{matricules}} created",
+  "VEHICLE_UPDATED": "Vehicle with registration number: {{matricules}} has been updated"
 
   
 }

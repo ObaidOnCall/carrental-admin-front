@@ -146,8 +146,9 @@
     "restore_defaults": "استعادة الإعدادات الافتراضية" ,
     "Create new car":"إضافة مركبة",
     "Cars": "السيارات" ,
-    "Vehicle ": "إضافة مركبة" ,
+    "Vehicle ": " مركبة" ,
     "VEHICLE_CREATED": "تم إضافة المركبة برقم التسجيل: {{matricules}}",
+    "VEHICLE_UPDATED": "تم تحديث المركبة برقم التسجيل: {{matricules}}" ,
     "Matricule":"رقم التسجيل" ,
     "Brand": "العلامة التجارية",
     "Model": "الطراز",
@@ -157,11 +158,20 @@
     "Doors": "الأبواب",
     "Top Speed": "السرعة القصوى",
     "Fuel Efficiency": "كفاءة الوقود",
+    "Number of Doors": "عدد الأبواب",
+    "Seating Capacity": "سعة المقاعد",
+    "Transmission": "ناقل الحركة",
+    "Height": "الارتفاع",
+    "Length": "الطول",
+    "Weight": "الوزن",
+    "Width": "العرض",
+    "Description": "الوصف" ,
     "Color":"اللون" ,
     "Edit": "تعديل",
     "Delete": "حذف",
     "Add Item": "إضافة",
     "Details": "التفاصيل" ,
-    "Submit": "تسجيل"
+    "Submit": "تسجيل" ,
+    "Update":"تحديث"
 }
   
