@@ -7,7 +7,7 @@ import { MtxDialog } from '@ng-matero/extensions/dialog';
 import { MtxGridColumn, MtxGridModule } from '@ng-matero/extensions/grid';
 import { TranslateService , TranslateModule} from '@ngx-translate/core';
 import { PageEvent } from '@angular/material/paginator';
-import { CarModel, CarRequest, CarType, FiltersType } from '../types';
+import { CarModel, CarRequest, CarResponse, CarType, FiltersType } from '../types';
 import { CarsServiceService } from '../cars-service.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -21,6 +21,7 @@ import { CommonModule } from '@angular/common';
 import { BrandsService } from 'app/Features/brands/services/brands.service';
 import { Brand } from 'app/Features/brands/types/type';
 import { ToastrService } from 'ngx-toastr';
+import { EditorComponent } from '@shared/components/editor/editor.component';
 
 
 
@@ -129,7 +130,8 @@ export class TableCarsComponent {
           color: 'accent',
           icon: 'edit',
           tooltip: this.translate.stream('edit'),
-          click: car => this.router.navigate(['/cars/update', car.id]),
+          // click: car => this.router.navigate(['/cars/update', car.id]),
+          click : vehicle => this.updateVehicle(vehicle.id)
         },
         {
           type: 'icon',
@@ -154,7 +156,7 @@ export class TableCarsComponent {
     },
   ];
 
-  cars: any[] = [];
+  cars: CarResponse[] = [];
   isLoading = true;
   totalRecords: number = 0;
   searchTerm: string = '';
@@ -260,7 +262,7 @@ export class TableCarsComponent {
 
     const dialogRef = this.dialog.originalOpen(FormComponent, {
       width: '900px',
-      data: { name: 'nzbin', animal: 'panda' },
+      data: { mode: "add"},   
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -272,6 +274,27 @@ export class TableCarsComponent {
 
     console.warn(query);
     
+  }
+
+
+  updateVehicle(vehicleId : number) : void {
+
+    
+    const foundVehicle : CarResponse | undefined = this.cars.find(car => car.id === vehicleId);
+    
+    console.warn(foundVehicle);
+    
+    const dialogRef = this.dialog.originalOpen(FormComponent, {
+      width: '900px',
+      data: { mode: "update" , vehicle:foundVehicle},   
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+
+    
+
   }
 
 
@@ -310,7 +333,8 @@ export class TableCarsComponent {
     MatButtonModule ,
     ReactiveFormsModule,
     CommonModule ,
-    TranslateModule
+    TranslateModule ,
+    EditorComponent
   ],
 })
 export class FormComponent {
@@ -331,16 +355,15 @@ export class FormComponent {
   ) {
 
     this.registerForm = new FormGroup({
-      matricule: new FormControl('', [Validators.required]),
-      // color: new FormControl('', [Validators.required]),
-      date: new FormControl('2024-12-31', [Validators.required]),
-      price: new FormControl('', [
-        Validators.required, 
-        Validators.min(5) ,
-        Validators.max(1000) ,
+      matricule: new FormControl(data?.vehicle?.matricule || '', [Validators.required]),
+      date: new FormControl(data?.vehicle?.date || '2001-12-31', [Validators.required]),
+      price: new FormControl(data?.vehicle?.price || '', [
+        Validators.required,
+        Validators.min(5),
+        Validators.max(1000),
       ]),
-      brand: new FormControl('', [Validators.required]),
-      model: new FormControl('', [Validators.required]),
+      brand: new FormControl(data?.vehicle?.model.brand.id || '', [Validators.required]),
+      model: new FormControl(data?.vehicle?.model.id || '', [Validators.required]),
     });
   }
 
@@ -349,7 +372,15 @@ export class FormComponent {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
     
-    this.getBrands() ;
+    this.getBrands();
+
+    // if (this.brands.length === 0) {
+    // }
+  
+    // // Fetch models if a brand is already selected
+    // if (this.data?.vehicle?.brand?.id) {
+    //   this.getBrandModels(this.data?.vehicle?.brand?.id);
+    // }
   }
 
   onNoClick(): void {
@@ -368,13 +399,12 @@ export class FormComponent {
     this.getBrandModels(selectedBrandId) ;
   }
 
-
   onSubmit() {
     
     if (this.registerForm.valid) {
       
       const formValue = this.registerForm.value;
-
+      
       const carData: CarRequest = {
         matricule: formValue.matricule,
         year: new Date(formValue.date).getTime() / 1000,
@@ -384,23 +414,56 @@ export class FormComponent {
         price: formValue.price
       };
 
-      this.carService.createVehicule([carData])
-                      .subscribe({
-                        next:(cars)=>{
-                          const matricules = cars.map(car => car.matricule).join(', ');
-                          this.translate.stream('VEHICLE_CREATED', { matricules }).subscribe((translatedMessage: string) => {
-                            this.toast.success(translatedMessage);
-                          });
-                        } ,
-                        error:()=>{
+      if (this.data.mode == "add") {
 
-                        } ,
-                        complete:()=>{
-                          this.dialogRef.close();
-                        }
-                      })
-      console.warn(carData);
-      console.warn("Form is Valid");
+        this.carService.createVehicule([carData])
+                        .subscribe({
+                          next:(cars)=>{
+                            const matricules = cars.map(car => car.matricule).join(', ');
+                            this.translate.stream('VEHICLE_CREATED', { matricules }).subscribe((translatedMessage: string) => {
+                              this.toast.success(translatedMessage);
+                            });
+                          } ,
+                          error:()=>{
+  
+                          } ,
+                          complete:()=>{
+                            this.dialogRef.close();
+                          }
+                        })
+      }
+
+      else if (this.data.mode == "update") {
+
+        console.warn(carData);
+
+        const changedData : Partial<CarRequest> = this.filterChangedFields(carData) ;
+        this.carService.updateCar(
+                          [this.data.vehicle.id] ,
+                          changedData ,
+                        )
+                        .subscribe({
+                          next:()=> {
+                            const matricules = carData.matricule;
+                            this.translate.stream('VEHICLE_UPDATED', { matricules }).subscribe((translatedMessage: string) => {
+                              this.toast.info(translatedMessage);
+                            });
+                          },
+                          error:(err)=>{
+                            console.error('Error occurred:', err);
+                          } ,
+                          complete:()=>{
+                            this.dialogRef.close();
+
+                          }
+                        })
+
+        console.warn(changedData);
+        
+
+
+      }
+
 
     } else {
       this.registerForm.markAllAsTouched() ;
@@ -410,6 +473,9 @@ export class FormComponent {
     
   }
   
+  /**
+   * I will cache the brands in session cache aslo the models ☘️
+   */
   private getBrands() {
       this.brandService.getBrands()
       .subscribe(
@@ -438,4 +504,41 @@ export class FormComponent {
           }
     })
   }
+
+
+  private filterChangedFields(carRequest: CarRequest): Partial<CarRequest> {
+
+    const changedFields: Partial<CarRequest> = {};
+
+    if (this.data.vehicle) {
+        if (this.data.vehicle.matricule !== carRequest.matricule) {
+            changedFields.matricule = carRequest.matricule;
+        }
+        if (new Date(this.data.vehicle.year).getFullYear() !== new Date(carRequest.year).getFullYear()) {
+            changedFields.year = carRequest.year;
+        }
+        if (this.data.vehicle.model.id !== carRequest.model) {
+            changedFields.model = carRequest.model;
+        }
+        if (this.data.vehicle.price !== carRequest.price) {
+            changedFields.price = carRequest.price;
+        }
+        if (this.data.vehicle.color !== carRequest.color) {
+            changedFields.color = carRequest.color;
+        }
+        if (this.data.vehicle.mileage !== carRequest.mileage) {
+            changedFields.mileage = carRequest.mileage;
+        }
+    }
+
+    Object.keys(changedFields).forEach(key => {
+        if (changedFields[key as keyof CarRequest] === undefined) {
+            delete changedFields[key as keyof CarRequest];
+        }
+    });
+
+    return changedFields;
+  }
+
+
 }

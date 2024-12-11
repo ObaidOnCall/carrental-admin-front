@@ -72,7 +72,7 @@ export class FormCreateCarsComponent {
   onSubmit() {
     if (this.id) {
       this.carsService
-        .UpdateCar(Number(this.id), {
+        .updateCar([Number(this.id)], {
           ...this.vehicleForm.value,
         })
         .subscribe(

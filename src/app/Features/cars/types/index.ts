@@ -204,3 +204,10 @@ export type MappedCar <L extends {} , T> = {
 
 
 export type { CarType, FiltersType, CarModel, Assurance };
+
+
+
+export interface UpdateCarResponse {
+  code: number;
+  message: string;
+}

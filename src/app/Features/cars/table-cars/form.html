@@ -18,7 +18,7 @@
         </div>  
                 
         <label>
-            <input formControlName="date" required="" placeholder="" type="date" value="2024-12-31" class="input">
+            <input formControlName="date" required="" placeholder="" type="date" class="input">
             <span>{{ 'Date' | translate }}</span>
 
             <div *ngIf="registerForm.get('date')?.invalid && registerForm.get('date')?.touched">
@@ -27,7 +27,7 @@
         </label> 
             
         <label>
-            <input formControlName="price" required="" placeholder="" type="number" class="input">
+            <input formControlName="price" required="" placeholder="" type="number" step="0.01" class="input">
             <span>{{ 'Price' | translate }}</span>
 
             <div *ngIf="registerForm.get('price')?.invalid && registerForm.get('price')?.touched">
@@ -59,7 +59,9 @@
             </label>
         </div>
          
-        <button class="submit" type="submit">{{ 'Submit' | translate }}</button>
+        <!-- <app-editor></app-editor> -->
+        <button class="submit" type="submit">{{ data?.mode === 'update' ? ('Update' | translate) : ('Submit' | translate) }}</button>
+
     </form>
 <!-- </div> 
 

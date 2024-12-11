@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { environment } from '@env/environment';
-import { Assurance, CarModel, CarRequest, CarResponse, CarType } from './types';
+import { Assurance, CarModel, CarRequest, CarResponse, CarType, UpdateCarResponse } from './types';
 
 @Injectable({
   providedIn: 'root',
@@ -31,8 +31,11 @@ export class CarsServiceService {
   createVehicule(cars: CarRequest[]): Observable<CarResponse[]> {
     return this.http.post<CarResponse[]>(environment.backend1 + '/vehicules', cars);
   }
-  UpdateCar(id: number, credentials: CarType): Observable<CarType> {
-    return this.http.put<CarType>(environment.backend1 + `/vehicules/${[id]}`, [credentials]);
+  
+  updateCar(ids: number[],updatedCar: CarRequest | Partial<CarRequest>): Observable<UpdateCarResponse> {
+    return this.http.put<UpdateCarResponse>(`${environment.backend1}/vehicules/${ids}`, updatedCar).pipe(
+      tap((response) => console.error('Raw Response:', response))
+    );
   }
 
   CreateAssurance(credentials: Assurance): Observable<Assurance> {
