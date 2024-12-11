@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, inject } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, Renderer2, ViewEncapsulation, inject } from '@angular/core';
 import { FormsModule , ReactiveFormsModule, FormGroup, FormControl, Validators} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -22,6 +22,8 @@ import { BrandsService } from 'app/Features/brands/services/brands.service';
 import { Brand } from 'app/Features/brands/types/type';
 import { ToastrService } from 'ngx-toastr';
 import { EditorComponent } from '@shared/components/editor/editor.component';
+import { AppSettings, SettingsService } from '@core';
+import { Subscription } from 'rxjs';
 
 
 
@@ -325,6 +327,7 @@ export class TableCarsComponent {
   templateUrl: './form.html',
   styleUrl: './form.scss',
   standalone: true,
+  encapsulation: ViewEncapsulation.None,
   imports: [
     MatFormFieldModule, 
     MatInputModule, 
@@ -344,6 +347,8 @@ export class FormComponent {
   private readonly carService : CarsServiceService = inject(CarsServiceService) ;
   private readonly toast = inject(ToastrService);
   private readonly translate = inject(TranslateService);
+  private readonly settings = inject(SettingsService);
+  notifySubscription = Subscription.EMPTY;
 
 
   brands : Brand[] = [] ;
@@ -351,7 +356,9 @@ export class FormComponent {
 
   constructor(
     public dialogRef: MatDialogRef<FormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any ,
+    private readonly renderer: Renderer2,
+    private readonly el: ElementRef
   ) {
 
     this.registerForm = new FormGroup({
@@ -381,6 +388,12 @@ export class FormComponent {
     // if (this.data?.vehicle?.brand?.id) {
     //   this.getBrandModels(this.data?.vehicle?.brand?.id);
     // }
+
+    this.notifySubscription = this.settings.notify.subscribe(opts => {
+      console.log("form :" , opts);
+
+      this.updateThemes(opts) ;
+    });
   }
 
   onNoClick(): void {
@@ -540,5 +553,20 @@ export class FormComponent {
     return changedFields;
   }
 
+
+  private updateThemes(opts : Partial<AppSettings>) {
+
+    const selectElements = this.el.nativeElement.querySelectorAll('.select');
+    
+    // Loop through all selected elements and add/remove the 'select_dark' class
+    selectElements.forEach((element: HTMLElement) => {
+      if (opts.theme === 'dark') {
+        this.renderer.addClass(element, 'select_dark');
+      } else {
+        this.renderer.removeClass(element, 'select_dark');
+      }
+    });
+
+  }
 
 }

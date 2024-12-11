@@ -1,0 +1,42 @@
+.editor {
+    border-radius: 4px;
+    border: 2px solid rgba(45, 45, 45, 0.664);
+  
+    .NgxEditor__MenuBar {
+
+      border-top-left-radius: 4px;
+      border-top-right-radius: 4px;
+      border-bottom: 1px solid rgba(45, 45, 45, 0.763);
+
+    }
+
+    .NgxEditor__MenuBar_Dark {
+        background: #2B2A33;
+    }
+  
+    .NgxEditor {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+
+    .NgxEditor_Dark {
+        background: #2B2A33;
+        color: azure;
+    }
+  
+    .CodeMirror {
+      height: auto;
+      margin-bottom: 0.7rem;
+
+  
+      pre {
+        white-space: pre !important;
+      }
+    }
+}
+
+
+.editor_dark {
+    border: 2px solid rgb(40, 39, 39);
+
+}

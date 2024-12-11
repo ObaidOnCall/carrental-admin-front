@@ -1,43 +1,100 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Editor , NgxEditorModule, schema} from 'ngx-editor';
+import { Component, OnDestroy, OnInit, ViewEncapsulation, inject , Renderer2, ElementRef} from '@angular/core';
+import { Editor , NgxEditorModule, schema , Validators, Toolbar} from 'ngx-editor';
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { AppSettings, SettingsService } from '@core';
+import { Subscription } from 'rxjs';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 
 @Component({
   selector: 'app-editor',
   standalone: true,
+  encapsulation: ViewEncapsulation.None,
   imports: [
     NgxEditorModule ,
     CommonModule ,
-    ReactiveFormsModule
+    ReactiveFormsModule ,
+    TranslateModule
   ],
   templateUrl: './editor.component.html',
   styleUrl: './editor.component.scss'
 })
 export class EditorComponent implements OnInit , OnDestroy{
   
-  
+  private readonly settings = inject(SettingsService);
+  notifySubscription = Subscription.EMPTY;
+
+  constructor(private readonly renderer: Renderer2, private readonly el: ElementRef) { }
+
   editor!: Editor;
-  html = new FormControl('Hello world'); 
+  html = new FormControl(); 
+  toolbar: Toolbar = [
+    ['bold', 'italic'],
+    ['underline', 'strike'],
+    ['code', 'blockquote'],
+    ['ordered_list', 'bullet_list'],
+    [{ heading: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] }],
+    ['link', 'image'],
+    ['text_color', 'background_color'],
+    // ['align_left', 'align_center', 'align_right', 'align_justify'],
+  ];
   
   
-  ngOnDestroy(): void {
+  ngOnInit(): void {
+    // Initialize the editor instance
     this.editor = new Editor({
-      content: '',
-      history: true,
-      keyboardShortcuts: true,
-      inputRules: true,
-      plugins: [], //https://prosemirror.net/docs/guide/#state
-      schema, //https://prosemirror.net/examples/schema/
-      nodeViews: {}, //https://prosemirror.net/docs/guide/#state,
-      attributes: {}, // https://prosemirror.net/docs/ref/#view.EditorProps.attributes
-      linkValidationPattern: '',
-      parseOptions: {}, // https://prosemirror.net/docs/ref/#model.ParseOptions
+      schema, // Load the schema
+      history: true, // Enable undo/redo
+      keyboardShortcuts: true, // Enable keyboard shortcuts
+    });
+
+    this.notifySubscription = this.settings.notify.subscribe(opts => {
+      console.log("form :" , opts);
+
+      this.updateThemes(opts) ;
     });
   }
-  ngOnInit(): void {
-    this.editor.destroy();  
+
+  ngOnDestroy(): void {
+    // Destroy the editor instance to clean up resources
+    if (this.editor) {
+      this.editor.destroy();
+    }
+
+    this.notifySubscription.unsubscribe();
+  }
+
+
+
+  private updateThemes(opts : Partial<AppSettings>) {
+
+    const editorElement = this.el.nativeElement.querySelector('.editor');
+    const editorMenuBar = this.el.nativeElement.querySelector('.NgxEditor__MenuBar');
+    const editor = this.el.nativeElement.querySelector('.NgxEditor');
+
+    if (editorElement && opts.theme === 'dark') {
+      this.renderer.addClass(editorElement, 'editor_dark');
+    }
+    else {
+      this.renderer.removeClass(editorElement, 'editor_dark');
+    } ;
+
+    if (editorMenuBar && opts.theme === 'dark') {
+      this.renderer.addClass(editorMenuBar, 'NgxEditor__MenuBar_Dark');
+    }
+    else {
+      this.renderer.removeClass(editorMenuBar, 'NgxEditor__MenuBar_Dark');
+    } ;
+
+    if (editor && opts.theme === 'dark') {
+      this.renderer.addClass(editor, 'NgxEditor_Dark');
+    }
+    else {
+      this.renderer.removeClass(editor, 'NgxEditor_Dark');
+    } ;
+    
+
   }
 }

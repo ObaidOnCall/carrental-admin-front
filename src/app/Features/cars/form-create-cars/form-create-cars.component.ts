@@ -16,7 +16,6 @@ import { Brand } from 'app/Features/brands/types/type';
 import { BrandsService } from 'app/Features/brands/services/brands.service';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import {MatDatepickerModule} from '@angular/material/datepicker';
-import { QuillModule } from 'ngx-quill';
 import { ActivatedRoute } from '@angular/router';
 
 interface OptionSelect {
@@ -35,7 +34,6 @@ interface OptionSelect {
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    QuillModule,
     MatDatepickerModule 
   ],
   templateUrl: './form-create-cars.component.html',

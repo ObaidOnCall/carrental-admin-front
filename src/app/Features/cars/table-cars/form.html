@@ -37,7 +37,7 @@
 
         <div class="flex">
             <label class="mw-50-percent">
-                <select formControlName="brand" required class="input" (change)="onBrandChange($event)">
+                <select formControlName="brand" required class="input select" (change)="onBrandChange($event)">
                     <option *ngFor="let brand of brands" [value]="brand.id">{{ brand.name }}</option>
                 </select>
                 <span>{{ 'Brand' | translate }}</span>
@@ -48,7 +48,7 @@
             </label>
         
             <label class="mw-50-percent">
-                <select formControlName="model" required class="input">
+                <select formControlName="model" required class="input select">
                     <option *ngFor="let model of models" [value]="model.id">{{ model.name }}</option>
                 </select>
                 <span>{{ 'Model' | translate }}</span>
@@ -59,7 +59,7 @@
             </label>
         </div>
          
-        <!-- <app-editor></app-editor> -->
+        <app-editor></app-editor>
         <button class="submit" type="submit">{{ data?.mode === 'update' ? ('Update' | translate) : ('Submit' | translate) }}</button>
 
     </form>
