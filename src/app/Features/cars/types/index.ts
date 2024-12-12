@@ -89,6 +89,7 @@ export interface CarRequest {
   color : string ,
   mileage : number ,
   price : number ,
+  description : string
 }
 
 

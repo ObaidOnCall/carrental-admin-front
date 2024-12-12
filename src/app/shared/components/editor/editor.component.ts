@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation, inject , Renderer2, ElementRef} from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation, inject , Renderer2, ElementRef, Input} from '@angular/core';
 import { Editor , NgxEditorModule, schema , Validators, Toolbar} from 'ngx-editor';
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
@@ -29,7 +29,7 @@ export class EditorComponent implements OnInit , OnDestroy{
   constructor(private readonly renderer: Renderer2, private readonly el: ElementRef) { }
 
   editor!: Editor;
-  html = new FormControl(); 
+  @Input() formControl!: FormControl;
   toolbar: Toolbar = [
     ['bold', 'italic'],
     ['underline', 'strike'],
@@ -51,8 +51,6 @@ export class EditorComponent implements OnInit , OnDestroy{
     });
 
     this.notifySubscription = this.settings.notify.subscribe(opts => {
-      console.log("form :" , opts);
-
       this.updateThemes(opts) ;
     });
   }

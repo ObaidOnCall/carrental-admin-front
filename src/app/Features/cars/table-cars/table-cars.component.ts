@@ -24,7 +24,8 @@ import { ToastrService } from 'ngx-toastr';
 import { EditorComponent } from '@shared/components/editor/editor.component';
 import { AppSettings, SettingsService } from '@core';
 import { Subscription } from 'rxjs';
-
+import { TripTreesComponent } from '@shared/components/loaders/trip-trees/trip-trees.component';
+import { toHTML } from 'ngx-editor';
 
 
 @Component({
@@ -39,7 +40,8 @@ import { Subscription } from 'rxjs';
     MtxGridModule,
     MatButtonToggleModule,
     ShareBottonComponent ,
-    TableToolbarComponent
+    TableToolbarComponent ,
+    TripTreesComponent
 ],
   templateUrl: './table-cars.component.html',
   styleUrl: './table-cars.component.scss',
@@ -47,9 +49,12 @@ import { Subscription } from 'rxjs';
 export class TableCarsComponent {
   private readonly translate = inject(TranslateService);
   private readonly dialog = inject(MtxDialog);
+  private readonly toast = inject(ToastrService);
+  // private readonly carsService = inject(CarsServiceService)
+  private readonly router: Router= inject(Router)
+
   constructor(
-    private carsService: CarsServiceService,
-    private router: Router 
+    private carsService: CarsServiceService
   ) {}
 
   columns: MtxGridColumn[] = [
@@ -164,6 +169,7 @@ export class TableCarsComponent {
   searchTerm: string = '';
   ListRowSelectable: any[] = [];
   selectedView: string = 'table';
+  selectedIds: number[] = [];
 
   filters: FiltersType = {
     curentPage: 0,
@@ -212,8 +218,14 @@ export class TableCarsComponent {
     });
   }
 
-  onSelectionChange() {
-    console.log(this.ListRowSelectable);
+  onSelectionChange(event:any) {
+
+    // console.log(this.ListRowSelectable);
+    
+    this.selectedIds = event.map((row: { id: number }) => row.id);
+
+    // console.warn(this.selectedIds);
+    
   }
 
   handleSearch(): void {
@@ -229,14 +241,12 @@ export class TableCarsComponent {
   }
 
   handelDelete(id: number) {
-    this.carsService.deleteCars(id).subscribe({
+    this.carsService.deleteCars([id]).subscribe({
       next: () => {
-        console.log('deleted');
         this.fetchCars(this.filters);
       },
       error: err => {
         this.fetchCars(this.filters);
-        console.error('Delete failed', err);
       },
     });
   }
@@ -254,6 +264,19 @@ export class TableCarsComponent {
 
   handelToolboxDeletetion () : void {
     console.warn("I'm deleting 💵");
+
+    this.carsService.deleteCars(this.selectedIds).subscribe({
+
+      next:()=>{
+        this.toast.warning("vehs deleted");
+      },
+      error:()=>{
+
+      },
+      complete:()=>{
+
+      }
+    })
     
   }
 
@@ -283,9 +306,7 @@ export class TableCarsComponent {
 
     
     const foundVehicle : CarResponse | undefined = this.cars.find(car => car.id === vehicleId);
-    
-    console.warn(foundVehicle);
-    
+      
     const dialogRef = this.dialog.originalOpen(FormComponent, {
       width: '900px',
       data: { mode: "update" , vehicle:foundVehicle},   
@@ -371,6 +392,7 @@ export class FormComponent {
       ]),
       brand: new FormControl(data?.vehicle?.model.brand.id || '', [Validators.required]),
       model: new FormControl(data?.vehicle?.model.id || '', [Validators.required]),
+      editorContent: new FormControl(data?.vehicle?.description, [Validators.maxLength(250)]),
     });
   }
 
@@ -390,8 +412,6 @@ export class FormComponent {
     // }
 
     this.notifySubscription = this.settings.notify.subscribe(opts => {
-      console.log("form :" , opts);
-
       this.updateThemes(opts) ;
     });
   }
@@ -417,18 +437,20 @@ export class FormComponent {
     if (this.registerForm.valid) {
       
       const formValue = this.registerForm.value;
-      
       const carData: CarRequest = {
         matricule: formValue.matricule,
         year: new Date(formValue.date).getTime() / 1000,
         model: parseInt(formValue.model),
         color: formValue.color,
         mileage: 228687,
-        price: formValue.price
+        price: formValue.price ,
+        description: toHTML(formValue.editorContent) 
       };
 
       if (this.data.mode == "add") {
 
+        console.warn(carData);
+        
         this.carService.createVehicule([carData])
                         .subscribe({
                           next:(cars)=>{
@@ -448,8 +470,6 @@ export class FormComponent {
 
       else if (this.data.mode == "update") {
 
-        console.warn(carData);
-
         const changedData : Partial<CarRequest> = this.filterChangedFields(carData) ;
         this.carService.updateCar(
                           [this.data.vehicle.id] ,
@@ -463,16 +483,12 @@ export class FormComponent {
                             });
                           },
                           error:(err)=>{
-                            console.error('Error occurred:', err);
                           } ,
                           complete:()=>{
                             this.dialogRef.close();
 
                           }
-                        })
-
-        console.warn(changedData);
-        
+                        })        
 
 
       }
@@ -567,6 +583,11 @@ export class FormComponent {
       }
     });
 
+  }
+
+
+  getFormControl(name: string): FormControl {
+    return this.registerForm.get(name) as FormControl;
   }
 
 }

@@ -24,12 +24,12 @@ export class CarsServiceService {
     return this.http.get<CarModel>(environment.backend1 + `/brands/${id}/models`);
   }
 
-  deleteCars(id: number): Observable<any> {
-    return this.http.delete<any>(environment.backend1 + `/vehicules/${id}`);
+  deleteCars(ids: number[],): Observable<any> {
+    return this.http.delete<any>(`${environment.backend1}/vehicules/${ids}`);
   }
 
   createVehicule(cars: CarRequest[]): Observable<CarResponse[]> {
-    return this.http.post<CarResponse[]>(environment.backend1 + '/vehicules', cars);
+    return this.http.post<CarResponse[]>(`${environment.backend1}/vehicules`, cars);
   }
   
   updateCar(ids: number[],updatedCar: CarRequest | Partial<CarRequest>): Observable<UpdateCarResponse> {

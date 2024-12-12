@@ -59,7 +59,7 @@
             </label>
         </div>
          
-        <app-editor></app-editor>
+        <app-editor [formControl]="getFormControl('editorContent')"></app-editor>
         <button class="submit" type="submit">{{ data?.mode === 'update' ? ('Update' | translate) : ('Submit' | translate) }}</button>
 
     </form>

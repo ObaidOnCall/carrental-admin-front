@@ -80,8 +80,8 @@ export class DetailsCarComponent {
     }
   }
 
-  handelDelete(id: number) {
-    this.carsService.deleteCars(id).subscribe({
+  handelDelete(ids: number[]) {
+    this.carsService.deleteCars(ids).subscribe({
       next: () => {
         console.log('deleted');
         this.router.navigate(['/cars']);

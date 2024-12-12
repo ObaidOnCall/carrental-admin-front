@@ -54,7 +54,10 @@
               <p class="flex justify-between p-bg"><strong class="font-mono italic	font-semibold text-emerald-600">{{'Price' | translate}}</strong> {{ car.price | currency }}</p>
               
             </div>
-              <p class="flex justify-between"><strong class="font-mono italic	font-semibold text-emerald-600">{{'Description' | translate}}</strong> {{ car.description }}</p>                
+
+            <!-- Salah -->
+            <p class="flex justify-between"><strong class="font-mono italic	font-semibold text-emerald-600">{{'Description' | translate}}</strong><span [innerHTML]="car.description"></span></p>
+            <!-- end Salah -->
           </mat-card-content>
         </mat-card>            
         

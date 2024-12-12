@@ -17,9 +17,12 @@
     </div>
 </div> -->
 @if (isLoading ) {
-    <div class="container-loader">
+    <!-- <div class="container-loader">
         <div class="loader"></div>
-    </div>
+    </div> -->
+
+    <app-trip-trees-loader></app-trip-trees-loader>
+
 } @else {
 
       
@@ -55,6 +58,7 @@
     [length]="totalRecords"
     (page)="handelPagination($event)"
     [rowSelectable]="ListRowSelectable"
+    (rowSelectedChange)="onSelectionChange($event)"
 
     >
     </mtx-grid>
