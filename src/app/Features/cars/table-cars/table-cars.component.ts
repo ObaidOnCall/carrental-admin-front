@@ -262,12 +262,15 @@ export class TableCarsComponent {
 
 
 
-  handelToolboxDeletetion () : void {
+  handelToolboxDeletetion = (): void => {
     console.warn("I'm deleting 💵");
 
     this.carsService.deleteCars(this.selectedIds).subscribe({
 
       next:()=>{
+
+        this.cars = this.cars.filter(car => !this.selectedIds.includes(car.id));
+        
         this.toast.warning("vehs deleted");
       },
       error:()=>{
