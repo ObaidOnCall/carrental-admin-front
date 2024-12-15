@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation, inject , Renderer2, ElementRef, Input} from '@angular/core';
 import { Editor , NgxEditorModule, schema , Validators, Toolbar} from 'ngx-editor';
 import { CommonModule } from '@angular/common';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { ControlValueAccessor, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { AppSettings, SettingsService } from '@core';
 import { Subscription } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
@@ -26,10 +26,12 @@ export class EditorComponent implements OnInit , OnDestroy{
   private readonly settings = inject(SettingsService);
   notifySubscription = Subscription.EMPTY;
 
-  constructor(private readonly renderer: Renderer2, private readonly el: ElementRef) { }
+  private onChange: (value: string) => void = () => {};
+  private onTouched: () => void = () => {};
 
   editor!: Editor;
-  @Input() formControl!: FormControl;
+  @Input() control!: FormControl;
+
   toolbar: Toolbar = [
     ['bold', 'italic'],
     ['underline', 'strike'],
@@ -40,7 +42,8 @@ export class EditorComponent implements OnInit , OnDestroy{
     ['text_color', 'background_color'],
     // ['align_left', 'align_center', 'align_right', 'align_justify'],
   ];
-  
+
+  constructor(private readonly renderer: Renderer2, private readonly el: ElementRef) { }
   
   ngOnInit(): void {
     // Initialize the editor instance

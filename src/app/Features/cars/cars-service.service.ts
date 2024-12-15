@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { Observable, Subject, tap } from 'rxjs';
 import { environment } from '@env/environment';
 import { Assurance, CarModel, CarRequest, CarResponse, CarType, UpdateCarResponse } from './types';
 
@@ -40,5 +40,20 @@ export class CarsServiceService {
 
   CreateAssurance(credentials: Assurance): Observable<Assurance> {
     return this.http.post<Assurance>(environment.backend1 + 'vehicules/assurances', [credentials]);
+  }
+}
+
+
+@Injectable({
+  providedIn: 'root',
+})
+export class CarEventDrivenService {
+  
+  private readonly carUpdateSubject = new Subject<any>();
+
+  carUpdates$ = this.carUpdateSubject.asObservable();
+
+  emitCarUpdate(car: any) {
+    this.carUpdateSubject.next(car);
   }
 }

@@ -8,7 +8,7 @@ import { MtxGridColumn, MtxGridModule } from '@ng-matero/extensions/grid';
 import { TranslateService , TranslateModule} from '@ngx-translate/core';
 import { PageEvent } from '@angular/material/paginator';
 import { CarModel, CarRequest, CarResponse, CarType, FiltersType } from '../types';
-import { CarsServiceService } from '../cars-service.service';
+import { CarsServiceService ,CarEventDrivenService} from '../cars-service.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { Router } from '@angular/router';
@@ -52,6 +52,9 @@ export class TableCarsComponent {
   private readonly toast = inject(ToastrService);
   // private readonly carsService = inject(CarsServiceService)
   private readonly router: Router= inject(Router)
+  private readonly carEventDrivenService : CarEventDrivenService = inject(CarEventDrivenService) ;
+  private carUpdateSubscription: Subscription | undefined;
+
 
   constructor(
     private carsService: CarsServiceService
@@ -258,19 +261,47 @@ export class TableCarsComponent {
 
   ngOnInit() {
     this.fetchCars(this.filters);
+
+    /**
+     * @abstract
+     */
+    this.carUpdateSubscription = this.carEventDrivenService.carUpdates$.subscribe(updatedCar => {
+      const carIndex = this.cars.findIndex(car => car.id === updatedCar.id);
+      if (carIndex !== -1) {
+        this.cars[carIndex] = {
+          ...this.cars[carIndex],
+          ...updatedCar,
+        };
+      }
+    });
   }
 
+  ngOnDestroy() {
+    if (this.carUpdateSubscription) {
+      this.carUpdateSubscription.unsubscribe();
+    }
+  }
 
 
   handelToolboxDeletetion = (): void => {
     console.warn("I'm deleting 💵");
+
+    if (!this.selectedIds?.length) {
+
+      this.translate.stream("PLEASE_SELECT_ITEMS").subscribe((translatedMessage:string)=>{
+        this.toast.error(translatedMessage);
+      })
+      return;
+    }
 
     this.carsService.deleteCars(this.selectedIds).subscribe({
 
       next:()=>{
 
         this.cars = this.cars.filter(car => !this.selectedIds.includes(car.id));
-        
+
+        this.selectedIds = [];
+
         this.toast.warning("vehs deleted");
       },
       error:()=>{
@@ -372,6 +403,7 @@ export class FormComponent {
   private readonly toast = inject(ToastrService);
   private readonly translate = inject(TranslateService);
   private readonly settings = inject(SettingsService);
+  private readonly carEventDrivenService : CarEventDrivenService = inject(CarEventDrivenService) ;
   notifySubscription = Subscription.EMPTY;
 
 
@@ -474,6 +506,7 @@ export class FormComponent {
       else if (this.data.mode == "update") {
 
         const changedData : Partial<CarRequest> = this.filterChangedFields(carData) ;
+
         this.carService.updateCar(
                           [this.data.vehicle.id] ,
                           changedData ,
@@ -481,6 +514,9 @@ export class FormComponent {
                         .subscribe({
                           next:()=> {
                             const matricules = carData.matricule;
+
+                            this.carEventDrivenService.emitCarUpdate({ id: this.data.vehicle.id, ...changedData }) ;
+
                             this.translate.stream('VEHICLE_UPDATED', { matricules }).subscribe((translatedMessage: string) => {
                               this.toast.info(translatedMessage);
                             });
@@ -561,6 +597,9 @@ export class FormComponent {
         if (this.data.vehicle.mileage !== carRequest.mileage) {
             changedFields.mileage = carRequest.mileage;
         }
+        if (this.data.vehicle.description !== carRequest.description) {
+          changedFields.description = carRequest.description;
+        }
     }
 
     Object.keys(changedFields).forEach(key => {
@@ -593,4 +632,7 @@ export class FormComponent {
     return this.registerForm.get(name) as FormControl;
   }
 
+  // getFormControl = (name: string) : FormControl => {
+  //   return this.registerForm.get(name) as FormControl;
+  // }
 }

@@ -124,6 +124,7 @@
   "edit": "Edit",
   "delete": "Delete",
   "confirm_delete": "Confirm delete?",
+  "delete_selected_warning_message":"Are you sure you want to delete the selected items? This action cannot be undone." ,
   "ok": "Ok",
   "close": "Close",
   "profile": "Profile",
@@ -145,7 +146,8 @@
   "have_an_account": "Already have an account",
   "restore_defaults": "Restore defaults",
   "VEHICLE_CREATED": "Vehicle with registration number: {{matricules}} created",
-  "VEHICLE_UPDATED": "Vehicle with registration number: {{matricules}} has been updated"
+  "VEHICLE_UPDATED": "Vehicle with registration number: {{matricules}} has been updated",
+  "PLEASE_SELECT_ITEMS":"Please select items first."
 
   
 }
