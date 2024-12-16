@@ -223,11 +223,8 @@ export class TableCarsComponent {
 
   onSelectionChange(event:any) {
 
-    // console.log(this.ListRowSelectable);
     
     this.selectedIds = event.map((row: { id: number }) => row.id);
-
-    // console.warn(this.selectedIds);
     
   }
 
@@ -267,7 +264,7 @@ export class TableCarsComponent {
      */
     this.carUpdateSubscription = this.carEventDrivenService.carUpdates$.subscribe(updatedCar => {
       const carIndex = this.cars.findIndex(car => car.id === updatedCar.id);
-      if (carIndex !== -1) {
+      if (carIndex !== -1) {        
         this.cars[carIndex] = {
           ...this.cars[carIndex],
           ...updatedCar,
@@ -284,7 +281,6 @@ export class TableCarsComponent {
 
 
   handelToolboxDeletetion = (): void => {
-    console.warn("I'm deleting 💵");
 
     if (!this.selectedIds?.length) {
 
@@ -317,7 +313,6 @@ export class TableCarsComponent {
 
 
   handelToolboxAdd = (): void => {
-    // console.warn(this.dialog);
 
     const dialogRef = this.dialog.originalOpen(FormComponent, {
       width: '900px',
@@ -325,7 +320,6 @@ export class TableCarsComponent {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
     });
   };
 
@@ -347,7 +341,6 @@ export class TableCarsComponent {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
     });
 
     
@@ -416,14 +409,14 @@ export class FormComponent {
     private readonly renderer: Renderer2,
     private readonly el: ElementRef
   ) {
-
+    
     this.registerForm = new FormGroup({
       matricule: new FormControl(data?.vehicle?.matricule || '', [Validators.required]),
       date: new FormControl(data?.vehicle?.date || '2001-12-31', [Validators.required]),
       price: new FormControl(data?.vehicle?.price || '', [
         Validators.required,
         Validators.min(5),
-        Validators.max(1000),
+        Validators.max(10000),
       ]),
       brand: new FormControl(data?.vehicle?.model.brand.id || '', [Validators.required]),
       model: new FormControl(data?.vehicle?.model.id || '', [Validators.required]),
@@ -433,18 +426,9 @@ export class FormComponent {
 
 
   ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
+    
     
     this.getBrands();
-
-    // if (this.brands.length === 0) {
-    // }
-  
-    // // Fetch models if a brand is already selected
-    // if (this.data?.vehicle?.brand?.id) {
-    //   this.getBrandModels(this.data?.vehicle?.brand?.id);
-    // }
 
     this.notifySubscription = this.settings.notify.subscribe(opts => {
       this.updateThemes(opts) ;
@@ -479,12 +463,10 @@ export class FormComponent {
         color: formValue.color,
         mileage: 228687,
         price: formValue.price ,
-        description: toHTML(formValue.editorContent) 
+        description: toHTML(formValue.editorContent)
       };
 
       if (this.data.mode == "add") {
-
-        console.warn(carData);
         
         this.carService.createVehicule([carData])
                         .subscribe({
@@ -504,7 +486,7 @@ export class FormComponent {
       }
 
       else if (this.data.mode == "update") {
-
+        
         const changedData : Partial<CarRequest> = this.filterChangedFields(carData) ;
 
         this.carService.updateCar(
@@ -535,7 +517,6 @@ export class FormComponent {
 
     } else {
       this.registerForm.markAllAsTouched() ;
-      console.warn("Form is not Valid");
       
     }
     
