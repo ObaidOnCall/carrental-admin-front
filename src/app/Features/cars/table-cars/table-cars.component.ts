@@ -127,43 +127,43 @@ export class TableCarsComponent {
       minWidth: 180,
     },
 
-    {
-      header: this.translate.stream('operation'),
-      field: 'operation',
-      minWidth: 160,
-      width: '160px',
-      pinned: 'right',
-      type: 'button',
-      buttons: [
-        {
-          type: 'icon',
-          color: 'accent',
-          icon: 'edit',
-          tooltip: this.translate.stream('edit'),
-          // click: car => this.router.navigate(['/cars/update', car.id]),
-          click : vehicle => this.updateVehicle(vehicle.id)
-        },
-        {
-          type: 'icon',
-          color: 'warn',
-          icon: 'delete',
-          tooltip: this.translate.stream('delete'),
-          pop: {
-            title: this.translate.stream('confirm_delete'),
-            closeText: this.translate.stream('close'),
-            okText: this.translate.stream('ok'),
-          },
-          click: vehicle => this.handelDelete(vehicle.id),
-        },
-        {
-          type: 'icon',
-          color: 'primary',
-          icon: 'arrow_right_alt',
-          tooltip: this.translate.stream('details'),
-          click: car => this.router.navigate(['/cars/details', car.id]),
-        },
-      ],
-    },
+    // {
+    //   header: this.translate.stream('operation'),
+    //   field: 'operation',
+    //   minWidth: 160,
+    //   width: '160px',
+    //   pinned: 'right',
+    //   type: 'button',
+    //   buttons: [
+    //     {
+    //       type: 'icon',
+    //       color: 'accent',
+    //       icon: 'edit',
+    //       tooltip: this.translate.stream('edit'),
+    //       // click: car => this.router.navigate(['/cars/update', car.id]),
+    //       click : vehicle => this.updateVehicle(vehicle.id)
+    //     },
+    //     {
+    //       type: 'icon',
+    //       color: 'warn',
+    //       icon: 'delete',
+    //       tooltip: this.translate.stream('delete'),
+    //       pop: {
+    //         title: this.translate.stream('confirm_delete'),
+    //         closeText: this.translate.stream('close'),
+    //         okText: this.translate.stream('ok'),
+    //       },
+    //       click: vehicle => this.handelDelete(vehicle.id),
+    //     },
+    //     {
+    //       type: 'icon',
+    //       color: 'primary',
+    //       icon: 'arrow_right_alt',
+    //       tooltip: this.translate.stream('details'),
+    //       click: car => this.router.navigate(['/cars/details', car.id]),
+    //     },
+    //   ],
+    // },
   ];
 
   cars: CarResponse[] = [];

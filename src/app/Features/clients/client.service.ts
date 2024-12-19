@@ -7,7 +7,7 @@ import { ClientResponse, PaginatedClientResponse } from './clientTypes';
 @Injectable({
   providedIn: 'root',
 })
-export class ClientServiceService {
+export class ClientService {
 
   private readonly http = inject(HttpClient);
   constructor() {}
