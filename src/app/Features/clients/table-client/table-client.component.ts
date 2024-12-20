@@ -25,8 +25,10 @@ import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { TripTreesComponent } from '@shared/components/loaders/trip-trees/trip-trees.component';
 import { PageEvent } from '@angular/material/paginator';
-import { FiltersType } from 'app/Features/cars/types';
+import { CarResponse, FiltersType } from 'app/Features/cars/types';
 import { TableToolbarComponent } from '@shared/components/table-toolbar/table-toolbar.component';
+import { FileUploadComponent } from '@shared/components/file-upload/file-upload.component';
+import { Uploadable } from '@shared/interfaces/Uploadable';
 
 @Component({
   selector: 'app-table-client',
@@ -50,7 +52,7 @@ import { TableToolbarComponent } from '@shared/components/table-toolbar/table-to
   styleUrl: './table-client.component.css',
   providers: [MtxGridModule],
 })
-export class TableClientComponent {
+export class TableClientComponent implements Uploadable{
   
   private readonly translate = inject(TranslateService);
   private readonly dialog = inject(MtxDialog);
@@ -182,9 +184,10 @@ export class TableClientComponent {
         {
           type: 'icon',
           color: 'primary',
-          icon: 'arrow_right_alt',
-          tooltip: this.translate.stream('details'),
-          click: car => this.router.navigate(['/cars/details', car.id]),
+          icon: 'cloud_upload',
+          tooltip: this.translate.stream('upload'),
+          // click: car => this.router.navigate(['/cars/details', car.id]),
+          click: car => this.openUploadFiles(car) ,
         },
       ],
     },
@@ -218,8 +221,8 @@ export class TableClientComponent {
   };
 
 
-  constructor() {} ;
-
+  constructor() {}
+  
   ngOnInit() { 
 
     this.getClients(this.filters) ;
@@ -296,4 +299,22 @@ export class TableClientComponent {
   handelToolboxSearch():void {
 
   }
+
+  openUploadFiles = (car : CarResponse): void=> {
+    const dialogRef = this.dialog.originalOpen(FileUploadComponent, {
+      width: '900px',
+      data: {
+        onSubmit: this.onUploadFiles ,
+      },   
+    });
+    
+    dialogRef.afterClosed().subscribe(result => {
+    });
+  }
+
+
+  onUploadFiles(files: File[]): void {
+    console.log('Files uploaded:', files);
+  }
+
 }

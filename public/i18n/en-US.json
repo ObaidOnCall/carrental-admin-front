@@ -147,7 +147,8 @@
   "restore_defaults": "Restore defaults",
   "VEHICLE_CREATED": "Vehicle with registration number: {{matricules}} created",
   "VEHICLE_UPDATED": "Vehicle with registration number: {{matricules}} has been updated",
-  "PLEASE_SELECT_ITEMS":"Please select items first."
+  "PLEASE_SELECT_ITEMS":"Please select items first." ,
+  "Upload Docs" : "Upload Docs "
 
   
 }

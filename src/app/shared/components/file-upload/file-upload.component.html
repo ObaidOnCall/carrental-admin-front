@@ -1,9 +1,36 @@
-<div class="file-upload-container">
-  <div class="file-upload">
-    <input multiple="" class="file-input" id="fileInput" type="file" />
-    <label class="file-label" for="fileInput">
-      <i class="upload-icon">📁</i>
-      <p>Drag &amp; Drop your files here or click to upload</p>
+<form class="form" (ngSubmit)="onSubmit()">
+  <p class="title">{{ 'Upload Docs' | translate }}</p>
+
+  <div class="container">
+    <div class="folder">
+      <div class="front-side">
+        <div class="tip"></div>
+        <div class="cover"></div>
+      </div>
+      <div class="back-side cover"></div>
+    </div>
+    <!-- <label class="custom-file-upload">
+      <input class="title" type="file" multiple=""
+        
+      />
+      Choose a file
+    </label> -->
+
+    <label class="custom-file-upload">
+      <input
+        type="file"
+        multiple
+        (change)="onFileSelect($event)"
+        [class.invalid]="uploadForm.get('files')?.touched && uploadForm.get('files')?.invalid"
+      />
+      {{ 'Choose a file' | translate }}
     </label>
   </div>
-</div>
+
+  <div *ngIf="uploadForm.get('files')?.touched && uploadForm.get('files')?.invalid">
+    <span class="error">{{ 'At least one file is required' | translate }}</span>
+  </div>
+  
+  <button class="submit" type="submit">{{ 'Upload' | translate }}</button>
+
+</form>

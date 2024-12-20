@@ -517,7 +517,6 @@ export class FormComponent {
 
     } else {
       this.registerForm.markAllAsTouched() ;
-      
     }
     
   }
