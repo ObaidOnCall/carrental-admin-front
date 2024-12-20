@@ -26,6 +26,7 @@ import { Subscription } from 'rxjs';
 import { TripTreesComponent } from '@shared/components/loaders/trip-trees/trip-trees.component';
 import { PageEvent } from '@angular/material/paginator';
 import { FiltersType } from 'app/Features/cars/types';
+import { TableToolbarComponent } from '@shared/components/table-toolbar/table-toolbar.component';
 
 @Component({
   selector: 'app-table-client',
@@ -42,7 +43,8 @@ import { FiltersType } from 'app/Features/cars/types';
     TagModule ,
     ButtonModule , InputIconModule , IconFieldModule , MultiSelectModule , InputTextModule ,
     DropdownModule , SliderModule , ProgressBarModule,
-    TripTreesComponent
+    TripTreesComponent ,
+    TableToolbarComponent
   ],
   templateUrl: './table-client.component.html',
   styleUrl: './table-client.component.css',
@@ -163,7 +165,7 @@ export class TableClientComponent {
           icon: 'edit',
           tooltip: this.translate.stream('edit'),
           // click: car => this.router.navigate(['/cars/update', car.id]),
-          click : vehicle => this.updateVehicle(vehicle.id)
+          click : client => this.updateClient(client.id)
         },
         {
           type: 'icon',
@@ -175,7 +177,7 @@ export class TableClientComponent {
             closeText: this.translate.stream('close'),
             okText: this.translate.stream('ok'),
           },
-          click: vehicle => this.handelDelete(vehicle.id),
+          click: client => this.deleteClient(client.id),
         },
         {
           type: 'icon',
@@ -251,10 +253,47 @@ export class TableClientComponent {
   }
 
   
-  handelDelete(id: any): void {
+  deleteClient(id: any): void {
     throw new Error('Method not implemented.');
   }
-  updateVehicle(id: any): void {
+  updateClient(id: any): void {
     throw new Error('Method not implemented.');
+  }
+
+
+  handelToolboxDeletetion = () :void => {
+    if (!this.selectedIds?.length) {
+
+      this.translate.stream("PLEASE_SELECT_ITEMS").subscribe((translatedMessage:string)=>{
+        this.toast.error(translatedMessage);
+      })
+      return;
+    }
+
+    this.clientService.deleteClients(this.selectedIds).subscribe({
+
+      next:()=>{
+
+        this.clients = this.clients.filter(client => !this.selectedIds.includes(client.id));
+
+        this.selectedIds = [];
+
+        this.toast.warning("clients deleted");
+      },
+      error:()=>{
+
+      },
+      complete:()=>{
+
+      }
+    })
+  }
+
+  handelToolboxAdd():void {
+
+  }
+
+  handelToolboxSearch():void {
+
   }
 }

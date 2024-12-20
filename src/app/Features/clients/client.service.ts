@@ -16,6 +16,10 @@ export class ClientService {
     return this.http.get<PaginatedClientResponse>(environment.backend1 + `/clients?page=${page}&pageSize=${size}`);
   }
 
+  deleteClients(ids: number[],): Observable<any> {
+    return this.http.delete<any>(`${environment.backend1}/clients/${ids}`);
+  }
+
   CreateVehicle(credentials: ClientResponse): Observable<ClientResponse> {
     return this.http.post<ClientResponse>(environment.backend1 + '/clients', [credentials]);
   }
